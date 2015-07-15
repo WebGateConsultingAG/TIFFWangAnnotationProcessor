@@ -21,6 +21,8 @@ public class AbstractPictureTestBase {
 
 	public static final String PIC_MIT_ANNOTATIONS_TEXTAREA = "one-annotation-textarea.tif";
 	public static final String PIC_MIT_ANNOTATIONS_TEXTNOTE = "one-annotation-textnote.tif";
+	public static final String PIC_IMGVIEWER_ANNOTATION_TEXTAREA ="imaging-pic-textfieldannotation.tif";
+	public static final String PIC_IMGVIEWER_ANNOTATION_VARIOUS ="imaging-pic-various-annotations.tif";
 
 	public AbstractPictureTestBase() {
 		super();
