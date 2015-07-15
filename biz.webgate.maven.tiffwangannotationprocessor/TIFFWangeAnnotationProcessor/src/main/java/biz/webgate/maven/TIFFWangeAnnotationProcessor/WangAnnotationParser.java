@@ -11,30 +11,38 @@ public enum WangAnnotationParser {
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		int header = buffer.getInt();
 		int win32 = buffer.getInt();
-		System.out.println("header:" + header);
-		System.out.println("win32r:" + win32);
-		System.out.println("type:" + buffer.getInt());
-		System.out.println("size:" + buffer.getInt());
-		System.out.println("name:" + get8ByteName(buffer));
-		// System.out.println("name:"+buffer.getInt() +" "+buffer.getInt());
-		int innerSize = buffer.getInt();
-		System.out.println("size2:" + innerSize);
-		System.out.println("value:" + readChar(buffer, innerSize-4));
-		int dateInt = buffer.getInt();
-		System.out.println(dateInt);
+		WangAnnotationContainer container = WangAnnotationContainer.buildContainer(header, win32);
+		while (buffer.hasRemaining()) {
+			int blockType = buffer.getInt();
+			int blockSize = buffer.getInt();
+			WangAnnotation annotation = buildAnnoation(buffer, blockType, blockSize);
+			if (annotation == null) {
+				System.out.println("Stopped processing");
+				break;
+			}
+			container.addAnnoation(annotation);
+		}
 
-		System.out.println("type:" + buffer.getInt());
-		System.out.println("size:" + buffer.getInt());
-		System.out.println("name:" + get8ByteName(buffer));
-		// System.out.println("name:"+buffer.getInt() +" "+buffer.getInt());
-		innerSize = buffer.getInt();
-		System.out.println("size2:" + innerSize);
-		System.out.println("value:" + readChar(buffer, innerSize-4));
-		dateInt = buffer.getInt();
-		System.out.println(dateInt);
+		return container;
+	}
 
-		
+	private WangAnnotation buildAnnoation(ByteBuffer buffer, int blockType, int blockSize) {
+		switch (blockType) {
+		case 2:
+			return processStandardType(buffer, blockSize);
+		default:
+			System.out.println("no strategie for: "+ blockType);
+		}
 		return null;
+	}
+
+	private WangAnnotation processStandardType(ByteBuffer buffer, int blockSize) {
+
+		String name = get8ByteName(buffer);
+		int innerSize = buffer.getInt();
+		WangAnnotation annotation = AnnotationFactory.getAnnotationByName(name);
+		annotation.deserialize(this, buffer, innerSize);
+		return annotation;
 	}
 
 	private String get8ByteName(ByteBuffer buffer) {
@@ -43,16 +51,16 @@ public enum WangAnnotationParser {
 			int value = buffer.get() & 0xff;
 			sb.append(Character.toChars(value));
 		}
-		return sb.toString();
+		return sb.toString().trim();
 	}
-	
-	private String readChar(ByteBuffer buffer, int size) {
+
+	public String readChar(ByteBuffer buffer, int size) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < size; i++) {
 			int value = buffer.get() & 0xff;
 			sb.append(Character.toChars(value));
 		}
-		return sb.toString();
-		
+		return sb.toString().trim();
+
 	}
 }

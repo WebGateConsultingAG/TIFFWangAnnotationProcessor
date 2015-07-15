@@ -31,4 +31,8 @@ public class WangAnnotationContainer {
 		annotations.add(annotation);
 	}
 
+	public static WangAnnotationContainer buildContainer(int header2, int win32) {
+		return new WangAnnotationContainer(header2, win32 == 1);
+	}
+
 }
