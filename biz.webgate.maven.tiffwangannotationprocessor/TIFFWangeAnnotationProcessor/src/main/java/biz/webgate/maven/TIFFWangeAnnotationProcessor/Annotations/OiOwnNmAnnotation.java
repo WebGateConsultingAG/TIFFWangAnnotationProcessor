@@ -3,10 +3,9 @@ package biz.webgate.maven.TIFFWangeAnnotationProcessor.Annotations;
 import java.nio.ByteBuffer;
 import java.util.Date;
 
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotation;
 import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationParser;
 
-public class OiOwnNmAnnotation extends WangAnnotation {
+public class OiOwnNmAnnotation extends AbstractAnnotation {
 
 	private String name;
 	private Date date;

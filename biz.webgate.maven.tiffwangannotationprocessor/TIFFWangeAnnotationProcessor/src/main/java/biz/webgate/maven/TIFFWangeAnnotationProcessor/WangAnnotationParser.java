@@ -15,7 +15,7 @@ public enum WangAnnotationParser {
 		while (buffer.hasRemaining()) {
 			int blockType = buffer.getInt();
 			int blockSize = buffer.getInt();
-			WangAnnotation annotation = buildAnnoation(buffer, blockType, blockSize);
+			IAnnotation annotation = buildAnnoation(buffer, blockType, blockSize);
 			if (annotation == null) {
 				System.out.println("Stopped processing");
 				break;
@@ -26,21 +26,21 @@ public enum WangAnnotationParser {
 		return container;
 	}
 
-	private WangAnnotation buildAnnoation(ByteBuffer buffer, int blockType, int blockSize) {
+	private IAnnotation buildAnnoation(ByteBuffer buffer, int blockType, int blockSize) {
 		switch (blockType) {
 		case 2:
 			return processStandardType(buffer, blockSize);
 		default:
-			System.out.println("no strategie for: "+ blockType);
+			System.out.println("no strategie for: " + blockType);
 		}
 		return null;
 	}
 
-	private WangAnnotation processStandardType(ByteBuffer buffer, int blockSize) {
+	private IAnnotation processStandardType(ByteBuffer buffer, int blockSize) {
 
 		String name = get8ByteName(buffer);
 		int innerSize = buffer.getInt();
-		WangAnnotation annotation = AnnotationFactory.getAnnotationByName(name);
+		IAnnotation annotation = AnnotationFactory.getAnnotationByName(name);
 		annotation.deserialize(this, buffer, innerSize);
 		return annotation;
 	}

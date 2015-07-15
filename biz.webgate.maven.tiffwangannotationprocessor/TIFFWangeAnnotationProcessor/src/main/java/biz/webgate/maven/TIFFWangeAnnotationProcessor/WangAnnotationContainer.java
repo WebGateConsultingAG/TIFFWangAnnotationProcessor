@@ -7,7 +7,7 @@ public class WangAnnotationContainer {
 
 	private final int header;
 	private final boolean win32;
-	private final List<WangAnnotation> annotations = new ArrayList<WangAnnotation>();
+	private final List<IAnnotation> annotations = new ArrayList<IAnnotation>();
 
 	public WangAnnotationContainer(int header, boolean win32) {
 		super();
@@ -23,11 +23,11 @@ public class WangAnnotationContainer {
 		return win32;
 	}
 
-	public List<WangAnnotation> getAnnotations() {
+	public List<IAnnotation> getAnnotations() {
 		return annotations;
 	}
 
-	public void addAnnoation(WangAnnotation annotation) {
+	public void addAnnoation(IAnnotation annotation) {
 		annotations.add(annotation);
 	}
 

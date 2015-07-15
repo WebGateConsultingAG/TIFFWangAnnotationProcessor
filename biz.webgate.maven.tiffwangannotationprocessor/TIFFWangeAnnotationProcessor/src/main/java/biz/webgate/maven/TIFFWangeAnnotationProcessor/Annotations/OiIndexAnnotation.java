@@ -1,21 +1,16 @@
 package biz.webgate.maven.TIFFWangeAnnotationProcessor.Annotations;
 
 import java.nio.ByteBuffer;
-import java.util.Date;
 
 import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationParser;
 
-public class OiModNmAnnotation extends AbstractAnnotation {
+public class OiIndexAnnotation extends AbstractAnnotation {
 
 	private String name;
-	private Date date;
-	
-	
+
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
-		name = parser.readChar(buffer, size-4);
-		int time = buffer.getInt();
-		date = new Date(time);
+		name = parser.readChar(buffer, size);
 	}
 
 	@Override
@@ -26,7 +21,7 @@ public class OiModNmAnnotation extends AbstractAnnotation {
 
 	@Override
 	public String getAnnotationName() {
-		return "OiOwnNm";
+		return "OiIndex";
 	}
 
 	public String getName() {
@@ -37,16 +32,8 @@ public class OiModNmAnnotation extends AbstractAnnotation {
 		this.name = name;
 	}
 
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
 	@Override
 	public String toString() {
-		return name +" "+ date;
+		return name;
 	}
 }
