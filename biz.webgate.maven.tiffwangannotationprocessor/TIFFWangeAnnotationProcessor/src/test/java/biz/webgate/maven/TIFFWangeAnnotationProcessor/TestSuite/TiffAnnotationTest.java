@@ -1,6 +1,6 @@
 package biz.webgate.maven.TIFFWangeAnnotationProcessor.TestSuite;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.net.URL;
@@ -8,6 +8,9 @@ import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
+import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationContainer;
+import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationParser;
 
 import com.sun.media.imageio.plugins.tiff.TIFFDirectory;
 import com.sun.media.imageio.plugins.tiff.TIFFField;
@@ -18,7 +21,7 @@ public class TiffAnnotationTest extends AbstractPictureTestBase {
 	@Test
 	public void testAnnotations() throws IOException {
 
-		URL url = getURLforTestFile(AbstractPictureTestBase.PIC_MIT_ANNOTATIONS_TEXTAREA);
+		URL url = getURLforTestFile(AbstractPictureTestBase.PIC_IMGVIEWER_ANNOTATION_TEXTAREA);
 		List<PictureDetail> allPictures = readPictureFromUrl(url);
 		TIFFDirectory tDir = allPictures.get(0).getTIFFDirectory();
 		assertNotNull(tDir);
@@ -29,7 +32,7 @@ public class TiffAnnotationTest extends AbstractPictureTestBase {
 	@Test
 	public void testParseAnnotations() throws IOException {
 
-		URL url = getURLforTestFile(AbstractPictureTestBase.PIC_MIT_ANNOTATIONS_TEXTNOTE);
+		URL url = getURLforTestFile(AbstractPictureTestBase.PIC_IMGVIEWER_ANNOTATION_TEXTAREA);
 		List<PictureDetail> allPictures = readPictureFromUrl(url);
 		TIFFDirectory tDir = allPictures.get(0).getTIFFDirectory();
 		assertNotNull(tDir);
@@ -39,7 +42,7 @@ public class TiffAnnotationTest extends AbstractPictureTestBase {
 		System.out.println(wangAnnotations.getAsBytes().length);
 		// System.out.println(wangAnnotations.getAsInt(1));
 		printAsByte(wangAnnotations.getAsBytes());
-		List<WangAnnotation> parsedAnnotations = WangAnnotationParser.INSTANCE.parse((byte[]) wangAnnotations.getData());
+		WangAnnotationContainer parsedAnnotations = WangAnnotationParser.INSTANCE.parse((byte[]) wangAnnotations.getData());
 		assertNotNull(parsedAnnotations);
 
 	}
@@ -58,7 +61,7 @@ public class TiffAnnotationTest extends AbstractPictureTestBase {
 		System.out.println(wangAnnotations.getAsBytes().length);
 		// System.out.println(wangAnnotations.getAsInt(1));
 		printAsByte(wangAnnotations.getAsBytes());
-		List<WangAnnotation> parsedAnnotations = WangAnnotationParser.INSTANCE.parse((byte[]) wangAnnotations.getData());
+		WangAnnotationContainer parsedAnnotations = WangAnnotationParser.INSTANCE.parse((byte[]) wangAnnotations.getData());
 		assertNotNull(parsedAnnotations);
 
 	}
