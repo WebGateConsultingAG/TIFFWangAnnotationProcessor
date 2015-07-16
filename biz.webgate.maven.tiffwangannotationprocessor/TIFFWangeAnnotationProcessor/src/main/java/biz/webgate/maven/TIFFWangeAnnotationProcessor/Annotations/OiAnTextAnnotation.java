@@ -33,7 +33,7 @@ public class OiAnTextAnnotation extends AbstractAnnotation {
 
 	@Override
 	public String getAnnotationName() {
-		return "OiGroup";
+		return "OiAnText";
 	}
 
 	public String getText() {
