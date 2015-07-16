@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationParser;
 
-public class OiHilite extends AbstractAnnotation {
+public class OiHiliteAnnotation extends AbstractAnnotation {
 
 	private byte[] value;
 

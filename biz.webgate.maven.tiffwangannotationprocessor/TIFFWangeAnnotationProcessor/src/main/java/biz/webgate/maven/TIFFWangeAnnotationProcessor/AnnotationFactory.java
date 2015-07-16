@@ -1,8 +1,9 @@
 package biz.webgate.maven.TIFFWangeAnnotationProcessor;
 
 import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiAnTextAnnotation;
+import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiAnoDatAnnotation;
 import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiGroupAnnotation;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiHilite;
+import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiHiliteAnnotation;
 import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiIndexAnnotation;
 import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiOwnNmAnnotation;
 
@@ -25,7 +26,10 @@ public class AnnotationFactory {
 			return new OiAnTextAnnotation();
 		}
 		if ("OiHilite".equals(name)) {
-			return new OiHilite();
+			return new OiHiliteAnnotation();
+		}
+		if ("OiAnoDat".equals(name)) {
+			return new OiAnoDatAnnotation();
 		}
 		System.out.println("No Annotation found for: " + name);
 		return null;
