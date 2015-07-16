@@ -19,6 +19,7 @@ public class TiffAnnotationTest extends AbstractPictureTestBase {
 
 	private static final String EXTERNALFILE = "file:///D:/BitBucket/AWF/Testfiles/input/pic-mit-annotations.tif";
 	@Test
+	@Ignore
 	public void testAnnotations() throws IOException {
 
 		URL url = getURLforTestFile(AbstractPictureTestBase.PIC_IMGVIEWER_ANNOTATION_TEXTAREA);
@@ -41,7 +42,7 @@ public class TiffAnnotationTest extends AbstractPictureTestBase {
 		System.out.println(wangAnnotations.getCount());
 		System.out.println(wangAnnotations.getAsBytes().length);
 		// System.out.println(wangAnnotations.getAsInt(1));
-		printAsByte(wangAnnotations.getAsBytes());
+		//printAsByte(wangAnnotations.getAsBytes());
 		WangAnnotationContainer parsedAnnotations = WangAnnotationParser.INSTANCE.parse((byte[]) wangAnnotations.getData());
 		assertNotNull(parsedAnnotations);
 
@@ -59,7 +60,7 @@ public class TiffAnnotationTest extends AbstractPictureTestBase {
 		System.out.println(wangAnnotations.getCount());
 		System.out.println(wangAnnotations.getAsBytes().length);
 		// System.out.println(wangAnnotations.getAsInt(1));
-		printAsByte(wangAnnotations.getAsBytes());
+		//printAsByte(wangAnnotations.getAsBytes());
 		WangAnnotationContainer parsedAnnotations = WangAnnotationParser.INSTANCE.parse((byte[]) wangAnnotations.getData());
 		assertNotNull(parsedAnnotations);
 	}
@@ -76,7 +77,7 @@ public class TiffAnnotationTest extends AbstractPictureTestBase {
 		System.out.println(wangAnnotations.getCount());
 		System.out.println(wangAnnotations.getAsBytes().length);
 		// System.out.println(wangAnnotations.getAsInt(1));
-		printAsByte(wangAnnotations.getAsBytes());
+		//printAsByte(wangAnnotations.getAsBytes());
 		WangAnnotationContainer parsedAnnotations = WangAnnotationParser.INSTANCE.parse((byte[]) wangAnnotations.getData());
 		assertNotNull(parsedAnnotations);
 	}

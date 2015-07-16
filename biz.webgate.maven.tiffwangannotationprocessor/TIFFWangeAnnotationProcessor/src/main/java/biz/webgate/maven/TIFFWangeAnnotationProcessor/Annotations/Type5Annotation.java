@@ -36,7 +36,7 @@ public class Type5Annotation extends AbstractAnnotation {
 		lineSize = buffer.getInt();
 		reserved1 = buffer.getInt();
 		reserved2 = buffer.getInt();
-		font = LogFont.buildLogFont(buffer);
+		font = LogFont.buildLogFont(parser,buffer);
 		reserved3 = buffer.getInt();
 		time = buffer.getInt();
 		visible = buffer.getInt();

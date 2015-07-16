@@ -16,6 +16,7 @@ public enum WangAnnotationParser {
 		int header = buffer.getInt();
 		int win32 = buffer.getInt();
 		WangAnnotationContainer container = WangAnnotationContainer.buildContainer(header, win32);
+		IAnnotation previousAnnotation = null;
 		while (buffer.hasRemaining()) {
 			int blockType = buffer.getInt();
 			int blockSize = buffer.getInt();
@@ -24,7 +25,12 @@ public enum WangAnnotationParser {
 				System.out.println("Stopped processing");
 				break;
 			}
-			container.addAnnoation(annotation);
+			if (blockType == 6) {
+				previousAnnotation.addAnnotation(annotation);
+			} else {
+				container.addAnnoation(annotation);
+				previousAnnotation = annotation;
+			}
 		}
 
 		return container;
@@ -36,6 +42,8 @@ public enum WangAnnotationParser {
 			return processStandardType(buffer, blockSize);
 		case 5:
 			return processType5Annotation(buffer, blockSize);
+		case 6:
+			return processStandardType(buffer, blockSize);
 		default:
 			System.out.println("no strategie for: " + blockType);
 		}
@@ -147,9 +155,6 @@ public enum WangAnnotationParser {
 		//long lReserved[10];                      // Must be set to 0. 
 		System.out.println("reserved10: " +annotation.getReserved10());
 
-		System.out.println("W 1:"+buffer.getInt());
-		System.out.println("W 2:"+buffer.getInt());
-		System.out.println("W 3:"+buffer.getInt());
 		
 		System.out.println("Start Position: "+nPosition + " current Position ==>"+ buffer.position() +" diff: " +(buffer.position() - nPosition) +" should be ("+blockSize+")");
 		
@@ -169,7 +174,7 @@ public enum WangAnnotationParser {
 	public String readChar(ByteBuffer buffer, int size) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < size; i++) {
-			int value = buffer.get() & 0xff;
+			int value =buffer.get() & 0xff;
 			sb.append(Character.toChars(value));
 		}
 		return sb.toString().trim();

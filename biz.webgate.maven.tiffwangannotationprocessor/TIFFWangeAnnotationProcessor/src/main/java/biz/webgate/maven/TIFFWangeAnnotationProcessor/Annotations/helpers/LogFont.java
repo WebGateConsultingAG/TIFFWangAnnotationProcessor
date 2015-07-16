@@ -2,6 +2,8 @@ package biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.helpers;
 
 import java.nio.ByteBuffer;
 
+import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationParser;
+
 /*
  https://msdn.microsoft.com/en-us/library/windows/desktop/dd145037%28v=vs.85%29.aspx
  http://www.jasinskionline.com/windowsapi/ref/l/logfont.html
@@ -23,12 +25,14 @@ public class LogFont {
 	private byte pitchAndFamily;
 	private String faceName;;
 
-	public static LogFont buildLogFont(ByteBuffer buffer) {
+	public static LogFont buildLogFont(WangAnnotationParser parser, ByteBuffer buffer) {
 		LogFont font = new LogFont();
 		font.height = buffer.getLong();
 		font.width = buffer.getLong();
 		font.escapement = buffer.getLong();
+		font.faceName = parser.readChar(buffer, 32);
 		font.orientation = buffer.getLong();
+
 		font.weight = buffer.getLong();
 		font.italic = buffer.get();
 		font.underline = buffer.get();
@@ -38,9 +42,10 @@ public class LogFont {
 		font.clipPrecision = buffer.get();
 		font.quality = buffer.get();
 		font.pitchAndFamily = buffer.get();
-		byte[] faces = new byte[32];
-		buffer.get(faces);
-		font.faceName = new String(faces);
+		System.out.println("W 1:"+buffer.getInt());
+		System.out.println("W 2:"+buffer.getInt());
+		System.out.println("W 3:"+buffer.getInt());
+
 		return font;
 	}
 
