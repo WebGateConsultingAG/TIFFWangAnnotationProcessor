@@ -65,6 +65,24 @@ public class TiffAnnotationTest extends AbstractPictureTestBase {
 	}
 
 	@Test
+	public void testParseAnnotationsMP() throws IOException {
+
+		URL url = getURLforTestFile(AbstractPictureTestBase.PIC_MIT_ANNOTATIONS_TEXTAREA);
+		List<PictureDetail> allPictures = readPictureFromUrl(url);
+		TIFFDirectory tDir = allPictures.get(0).getTIFFDirectory();
+		assertNotNull(tDir);
+		TIFFField wangAnnotations = tDir.getTIFFField(32932);
+		assertNotNull(wangAnnotations);
+		System.out.println(wangAnnotations.getCount());
+		System.out.println(wangAnnotations.getAsBytes().length);
+		// System.out.println(wangAnnotations.getAsInt(1));
+		printAsByte(wangAnnotations.getAsBytes());
+		WangAnnotationContainer parsedAnnotations = WangAnnotationParser.INSTANCE.parse((byte[]) wangAnnotations.getData());
+		assertNotNull(parsedAnnotations);
+	}
+
+	
+	@Test
 	@Ignore
 	public void testExternalFile() throws IOException {
 

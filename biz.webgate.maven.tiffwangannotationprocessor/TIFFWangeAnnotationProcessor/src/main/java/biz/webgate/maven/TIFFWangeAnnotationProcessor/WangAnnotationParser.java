@@ -3,6 +3,10 @@ package biz.webgate.maven.TIFFWangeAnnotationProcessor;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.Type5Annotation;
+import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.helpers.LogFont;
+import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.helpers.RGBColor;
+
 public enum WangAnnotationParser {
 	INSTANCE;
 
@@ -49,36 +53,38 @@ public enum WangAnnotationParser {
 	}
 	private IAnnotation processType5Annotation(ByteBuffer buffer, int blockSize) {
 		int nPosition = buffer.position();
+		Type5Annotation annotation = new Type5Annotation();
+		annotation.deserialize(this, buffer, blockSize);
 		System.out.println("Type 5 size: "+blockSize);
-		System.out.println("utype:"+ buffer.getInt());
-		System.out.println("l1 (x-top)   :"+ buffer.getInt());
-		System.out.println("l2 (y-top)   :"+ buffer.getInt());
-		System.out.println("l3 (x-bottom):"+ buffer.getInt());
-		System.out.println("l4 (y-bottom):"+ buffer.getInt());
+		System.out.println("utype:"+ annotation.getType());
+		System.out.println("l1 (x-top)   :"+ annotation.getArea().getTopX());
+		System.out.println("l2 (y-top)   :"+ annotation.getArea().getTopY());
+		System.out.println("l3 (x-bottom):"+ annotation.getArea().getBottomX());
+		System.out.println("l4 (y-bottom):"+ annotation.getArea().getBottomY());
 		//20 Byte gelesen
 		
-		https://msdn.microsoft.com/en-us/library/windows/desktop/dd162938%28v=vs.85%29.aspx
-		System.out.println("C1 (B)   :"+ (buffer.get() & 0xff));
-		System.out.println("C1 (G)   :"+ (buffer.get() & 0xff));
-		System.out.println("C1 (R)   :"+ (buffer.get() & 0xff));
-		System.out.println("C1 (Res) :"+ (buffer.get() & 0xff));
+		//https://msdn.microsoft.com/en-us/library/windows/desktop/dd162938%28v=vs.85%29.aspx
+		System.out.println("C1 (B)   :"+ annotation.getColor1().getBlue());
+		System.out.println("C1 (G)   :"+ annotation.getColor1().getGreen());
+		System.out.println("C1 (R)   :"+ annotation.getColor1().getRed());
+		System.out.println("C1 (Res) :"+ annotation.getColor1().getReserve());
 
-		System.out.println("C2 (B)   :"+ (buffer.get() & 0xff));
-		System.out.println("C2 (G)   :"+ (buffer.get() & 0xff));
-		System.out.println("C2 (R)   :"+ (buffer.get() & 0xff));
-		System.out.println("C2 (Res) :"+ (buffer.get() & 0xff));
+		System.out.println("C2 (B)   :"+ annotation.getColor2().getBlue());
+		System.out.println("C2 (G)   :"+ annotation.getColor2().getGreen());
+		System.out.println("C2 (R)   :"+ annotation.getColor2().getRed());
+		System.out.println("C2 (Res) :"+ annotation.getColor2().getReserve());
 
 		//sollte boolean sein
-		System.out.println("Highlight: "+buffer.getInt());
-		System.out.println("Transparent: "+buffer.getInt());
+		System.out.println("Highlight: "+annotation.getHighligt());
+		System.out.println("Transparent: "+annotation.getTransparent());
 		//8 Byte gelesen
 		
 		//UINT uLineSize;                             // The width of the line in pixels.
-		System.out.println("ulineSize: "+buffer.getInt());
+		System.out.println("ulineSize: "+annotation.getLineSize());
 		//UINT uReserved1;                        // Reserved; must be set to 0.
-		System.out.println("ureserved1: "+buffer.getInt());
+		System.out.println("ureserved1: "+annotation.getReserved1());
 		//UINT uReserved2;                        // Reserved; must be set to 0.
-		System.out.println("ureserved2: "+buffer.getInt());
+		System.out.println("ureserved2: "+annotation.getReserved2());
 		//12 BYte gelesen
 		
 		//https://msdn.microsoft.com/en-us/library/windows/desktop/dd145037%28v=vs.85%29.aspx
@@ -101,23 +107,24 @@ public enum WangAnnotationParser {
 		//lfPitchAndFamily As Byte
 		//lfFaceName As String * 32
 		//End Type
-		System.out.println("lfHeight: "+buffer.getLong());
-		System.out.println("lfWidth: "+buffer.getLong());
-		System.out.println("lfEscapement: "+buffer.getLong());
-		System.out.println("lfOrientation: "+buffer.getLong());
-		System.out.println("lfWeight: "+buffer.getLong());
-		System.out.println("ltalic: "+buffer.get());
-		System.out.println("Underline: "+buffer.get());
-		System.out.println("Strikeout: "+buffer.get());
-		System.out.println("Charset: "+buffer.get());
-		System.out.println("OutPrecision: "+buffer.get());
-		System.out.println("Quality: "+buffer.get());
-		System.out.println("PitchAndFamil: "+buffer.get());
-		System.out.println("lFace: "+readChar(buffer, 32));
+		System.out.println("lfHeight: "+annotation.getFont().getHeight());
+		System.out.println("lfWidth: "+ annotation.getFont().getWidth());
+		System.out.println("lfEscapement: "+annotation.getFont().getEscapement());
+		System.out.println("lfOrientation: "+annotation.getFont().getOrientation());
+		System.out.println("lfWeight: "+annotation.getFont().getWeight());
+		System.out.println("ltalic: "+annotation.getFont().getItalic());
+		System.out.println("Underline: "+annotation.getFont().getUnderline());
+		System.out.println("Strikeout: "+annotation.getFont().getStrikeout());
+		System.out.println("Charset: "+annotation.getFont().getCharset());
+		System.out.println("OutPrecision: "+annotation.getFont().getOutPrecision());
+		System.out.println("ClipPrecision: "+annotation.getFont().getClipPrecision());
+		System.out.println("Quality: "+annotation.getFont().getQuality());
+		System.out.println("PitchAndFamil: "+annotation.getFont().getPitchAndFamily());
+		System.out.println("lFace: "+annotation.getFont().getFaceName());
 
 		
 		//DWORD bReserved3;                        // Reserved; must be set to 0.
-		System.out.println("reserved3: " +buffer.getInt());
+		System.out.println("reserved3: " +annotation.getReserved3());
 
 		//time_t Time;                                    // The time that the mark was first saved, in seconds, from
 		                                                                // 00:00:00 1-1-1970 GMT. Every annotation mark has
@@ -127,21 +134,26 @@ public enum WangAnnotationParser {
 		                                                                // "time" C call, which is the number of seconds since
 		                                                                // midnight 00:00:00 on 1-1-1970 GMT. If necessary, refer
 		                                                                // to your C documentation for a more detailed description.
-		System.out.println("time: " +buffer.getInt());
+		System.out.println("time: " +annotation.getTime());
 
 		//BOOL bVisible;                                // TRUE ¾ The mark is currently set to be visible.
 		                                                                // Annotation marks can be visible or hidden.
-		System.out.println("visible: " +buffer.getInt());
+		System.out.println("visible: " +annotation.getVisible());
 
 		//DWORD dwReserved4;                // Reserved; must be set to 0x0FF83F.
 
-		System.out.println("reserved4: " +buffer.getInt());
+		System.out.println("reserved4: " +annotation.getReserved4());
 
 		//long lReserved[10];                      // Must be set to 0. 
-		System.out.println("reserved10: " +buffer.getLong());
+		System.out.println("reserved10: " +annotation.getReserved10());
 
+		System.out.println("W 1:"+buffer.getInt());
+		System.out.println("W 2:"+buffer.getInt());
+		System.out.println("W 3:"+buffer.getInt());
+		
 		System.out.println("Start Position: "+nPosition + " current Position ==>"+ buffer.position() +" diff: " +(buffer.position() - nPosition) +" should be ("+blockSize+")");
-		return null;
+		
+		return annotation;
 	}
 
 	

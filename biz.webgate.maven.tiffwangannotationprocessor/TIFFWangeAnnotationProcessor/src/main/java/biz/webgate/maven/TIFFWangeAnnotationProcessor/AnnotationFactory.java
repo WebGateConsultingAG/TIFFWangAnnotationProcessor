@@ -1,8 +1,8 @@
 package biz.webgate.maven.TIFFWangeAnnotationProcessor;
 
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.Annotations.OiGroupAnnotation;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.Annotations.OiIndexAnnotation;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.Annotations.OiOwnNmAnnotation;
+import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiGroupAnnotation;
+import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiIndexAnnotation;
+import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiOwnNmAnnotation;
 
 public class AnnotationFactory {
 
