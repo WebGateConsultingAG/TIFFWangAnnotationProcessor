@@ -15,13 +15,14 @@ import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 
-import com.sun.media.imageio.plugins.tiff.TIFFDirectory;
 
 public class AbstractPictureTestBase {
 
 	public static final String PIC_MIT_ANNOTATIONS_TEXTAREA = "one-annotation-textarea.tif";
 	public static final String PIC_MIT_ANNOTATIONS_TEXTNOTE = "one-annotation-textnote.tif";
-
+	public static final String PIC_IMGVIEWER_ANNOTATION_TEXTAREA ="imaging-pic-textfieldannotation.tif";
+	public static final String PIC_IMGVIEWER_ANNOTATION_VARIOUS ="imaging-pic-various-annotations.tif";
+	public static final String PIC_IMGVIEWER_ANNOTATION_TEXTAREA_YELLOWFF ="imaging-pic-textfieldannotation-yellow-font-face.tif";
 	public AbstractPictureTestBase() {
 		super();
 	}
