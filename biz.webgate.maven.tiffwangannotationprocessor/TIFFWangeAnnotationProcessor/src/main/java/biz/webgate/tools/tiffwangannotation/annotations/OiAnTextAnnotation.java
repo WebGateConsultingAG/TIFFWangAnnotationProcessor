@@ -1,10 +1,10 @@
-package biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations;
+package biz.webgate.tools.tiffwangannotation.annotations;
 
 import java.nio.ByteBuffer;
 
 import javax.swing.text.Position;
 
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationParser;
+import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
 public class OiAnTextAnnotation extends AbstractAnnotation {
 

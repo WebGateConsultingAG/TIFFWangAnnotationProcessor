@@ -1,4 +1,4 @@
-package biz.webgate.maven.TIFFWangeAnnotationProcessor;
+package biz.webgate.tools.tiffwangannotation;
 
 /**
  * Hello world!

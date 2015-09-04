@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationContainer;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationParser;
+import biz.webgate.tools.tiffwangannotation.WangAnnotationContainer;
+import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
 import com.sun.media.imageio.plugins.tiff.TIFFDirectory;
 import com.sun.media.imageio.plugins.tiff.TIFFField;
@@ -129,7 +129,7 @@ public class TiffAnnotationTest extends AbstractPictureTestBase {
 			}
 			counter++;
 		}
-		System.out.println();
+		System.out.println(counter);
 	}
 	
 }

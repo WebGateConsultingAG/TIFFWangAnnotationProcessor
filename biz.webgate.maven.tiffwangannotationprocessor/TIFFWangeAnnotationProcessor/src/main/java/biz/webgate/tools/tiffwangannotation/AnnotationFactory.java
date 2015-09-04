@@ -1,11 +1,12 @@
-package biz.webgate.maven.TIFFWangeAnnotationProcessor;
+package biz.webgate.tools.tiffwangannotation;
 
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiAnTextAnnotation;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiAnoDatAnnotation;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiGroupAnnotation;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiHiliteAnnotation;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiIndexAnnotation;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.OiOwnNmAnnotation;
+import biz.webgate.tools.tiffwangannotation.annotations.OiAnTextAnnotation;
+import biz.webgate.tools.tiffwangannotation.annotations.OiAnoDatAnnotation;
+import biz.webgate.tools.tiffwangannotation.annotations.OiGroupAnnotation;
+import biz.webgate.tools.tiffwangannotation.annotations.OiHiliteAnnotation;
+import biz.webgate.tools.tiffwangannotation.annotations.OiIndexAnnotation;
+import biz.webgate.tools.tiffwangannotation.annotations.OiOwnNmAnnotation;
+
 
 public class AnnotationFactory {
 
