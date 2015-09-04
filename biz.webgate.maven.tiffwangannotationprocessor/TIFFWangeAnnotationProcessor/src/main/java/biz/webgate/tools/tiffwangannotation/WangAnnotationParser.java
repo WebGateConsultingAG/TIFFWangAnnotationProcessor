@@ -30,12 +30,13 @@ public enum WangAnnotationParser {
 				container.addAnnoation(annotation);
 				previousAnnotation = annotation;
 			}
+			
 		}
-
 		return container;
 	}
 
 	private IAnnotation buildAnnoation(ByteBuffer buffer, int blockType, int blockSize) {
+		
 		switch (blockType) {
 		case 2:
 			return processStandardType(buffer, blockSize);
@@ -51,11 +52,12 @@ public enum WangAnnotationParser {
 
 
 	private IAnnotation processStandardType(ByteBuffer buffer, int blockSize) {
-
 		String name = get8ByteName(buffer);
 		int innerSize = buffer.getInt();
 		IAnnotation annotation = AnnotationFactory.getAnnotationByName(name);
-		annotation.deserialize(this, buffer, innerSize);
+		if(annotation!=null){
+			annotation.deserialize(this, buffer, innerSize);
+		}
 		return annotation;
 	}
 	private IAnnotation processType5Annotation(ByteBuffer buffer, int blockSize) {
