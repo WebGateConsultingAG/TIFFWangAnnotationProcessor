@@ -1,11 +1,11 @@
-package biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations;
+package biz.webgate.tools.tiffwangannotation.annotations;
 
 import java.nio.ByteBuffer;
 
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationParser;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.helpers.Area;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.helpers.LogFont;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.helpers.RGBColor;
+import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
+import biz.webgate.tools.tiffwangannotation.annotations.helpers.Area;
+import biz.webgate.tools.tiffwangannotation.annotations.helpers.LogFont;
+import biz.webgate.tools.tiffwangannotation.annotations.helpers.RGBColor;
 
 public class Type5Annotation extends AbstractAnnotation {
 

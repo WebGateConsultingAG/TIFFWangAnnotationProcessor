@@ -1,8 +1,8 @@
-package biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations;
+package biz.webgate.tools.tiffwangannotation.annotations;
 
 import java.nio.ByteBuffer;
 
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationParser;
+import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
 public class OiGroupAnnotation extends AbstractAnnotation {
 

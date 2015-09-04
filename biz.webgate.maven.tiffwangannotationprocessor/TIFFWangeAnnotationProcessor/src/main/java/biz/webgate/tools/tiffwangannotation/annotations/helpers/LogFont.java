@@ -1,8 +1,8 @@
-package biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.helpers;
+package biz.webgate.tools.tiffwangannotation.annotations.helpers;
 
 import java.nio.ByteBuffer;
 
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.WangAnnotationParser;
+import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
 /*
  https://msdn.microsoft.com/en-us/library/windows/desktop/dd145037%28v=vs.85%29.aspx

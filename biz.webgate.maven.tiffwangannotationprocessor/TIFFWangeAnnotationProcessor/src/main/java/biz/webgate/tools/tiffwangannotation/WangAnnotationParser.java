@@ -1,11 +1,10 @@
-package biz.webgate.maven.TIFFWangeAnnotationProcessor;
+package biz.webgate.tools.tiffwangannotation;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.Type5Annotation;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.helpers.LogFont;
-import biz.webgate.maven.TIFFWangeAnnotationProcessor.annotations.helpers.RGBColor;
+import biz.webgate.tools.tiffwangannotation.annotations.Type5Annotation;
+
 
 public enum WangAnnotationParser {
 	INSTANCE;

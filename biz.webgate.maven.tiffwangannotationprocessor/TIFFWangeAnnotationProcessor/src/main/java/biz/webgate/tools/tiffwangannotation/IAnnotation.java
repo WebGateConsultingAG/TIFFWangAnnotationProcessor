@@ -1,4 +1,4 @@
-package biz.webgate.maven.TIFFWangeAnnotationProcessor;
+package biz.webgate.tools.tiffwangannotation;
 
 import java.nio.ByteBuffer;
 import java.util.List;
