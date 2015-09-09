@@ -23,7 +23,7 @@ public class LogFont {
 	private byte clipPrecision;
 	private byte quality;
 	private byte pitchAndFamily;
-	private String faceName;;
+	private String faceName;
 
 	public static LogFont buildLogFont(WangAnnotationParser parser, ByteBuffer buffer) {
 		LogFont font = new LogFont();
@@ -42,10 +42,9 @@ public class LogFont {
 		font.clipPrecision = buffer.get();
 		font.quality = buffer.get();
 		font.pitchAndFamily = buffer.get();
-		System.out.println("W 1:"+buffer.getInt());
-		System.out.println("W 2:"+buffer.getInt());
-		System.out.println("W 3:"+buffer.getInt());
-
+		buffer.getInt();
+		buffer.getInt();
+		buffer.getInt();
 		return font;
 	}
 
