@@ -55,6 +55,9 @@ public enum WangAnnotationParser {
 		String name = get8ByteName(buffer);
 		int innerSize = buffer.getInt();
 		IAnnotation annotation = AnnotationFactory.getAnnotationByName(name);
+		if (annotation == null) {
+			return null;
+		}
 		annotation.deserialize(this, buffer, innerSize);
 		return annotation;
 	}
