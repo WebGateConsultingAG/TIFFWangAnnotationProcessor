@@ -27,7 +27,10 @@ public class OiAnoDatAnnotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		// TODO Auto-generated method stub
+		List<Byte> blist = new ArrayList<Byte>();
+		
+		
+		
 		return null;
 	}
 

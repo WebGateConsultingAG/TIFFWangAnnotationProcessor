@@ -2,6 +2,7 @@ package biz.webgate.tools.tiffwangannotation;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 
 import biz.webgate.tools.tiffwangannotation.annotations.Type5Annotation;
 
@@ -30,12 +31,39 @@ public enum WangAnnotationParser {
 				container.addAnnoation(annotation);
 				previousAnnotation = annotation;
 			}
+			
 		}
-
 		return container;
 	}
 
+	public byte[] writeannotation(WangAnnotationContainer container){
+		ArrayList<Byte> annoList = new ArrayList<Byte>();
+		byte[] header = ByteBuffer.allocate(4).putInt(container.getHeader()).array();
+		for(Byte b : header){
+			annoList.add(b);
+		}
+		byte[] win32 = ByteBuffer.allocate(4).putInt(container.isWin32()?1:0).array();
+		for(Byte b : win32){
+			annoList.add(b);
+		}
+		
+		for(IAnnotation ia : container.getAnnotations()){
+			Byte[] anoBytes = ia.serialize();
+			for(Byte b : anoBytes){
+				annoList.add(b);
+			}
+		}
+		byte[] retBytes =  new byte[annoList.size()];
+		int i = 0;
+		for(byte b : annoList){
+			retBytes[i] = b;
+			i++;
+		}
+		return retBytes;
+	}
+	
 	private IAnnotation buildAnnoation(ByteBuffer buffer, int blockType, int blockSize) {
+		
 		switch (blockType) {
 		case 2:
 			return processStandardType(buffer, blockSize);
@@ -51,7 +79,6 @@ public enum WangAnnotationParser {
 
 
 	private IAnnotation processStandardType(ByteBuffer buffer, int blockSize) {
-
 		String name = get8ByteName(buffer);
 		int innerSize = buffer.getInt();
 		IAnnotation annotation = AnnotationFactory.getAnnotationByName(name);
@@ -65,20 +92,20 @@ public enum WangAnnotationParser {
 		Type5Annotation annotation = new Type5Annotation();
 		annotation.deserialize(this, buffer, blockSize);
 		
-		System.out.println("Font.lfHeight: "+annotation.getFont().getHeight());
-		System.out.println("Font.lfWidth: "+ annotation.getFont().getWidth());
-		System.out.println("Font.lfEscapement: "+annotation.getFont().getEscapement());
-		System.out.println("Font.lfOrientation: "+annotation.getFont().getOrientation());
-		System.out.println("Font.lfWeight: "+annotation.getFont().getWeight());
-		System.out.println("Font.ltalic: "+annotation.getFont().getItalic());
-		System.out.println("Font.Underline: "+annotation.getFont().getUnderline());
-		System.out.println("Font.Strikeout: "+annotation.getFont().getStrikeout());
-		System.out.println("Font.Charset: "+annotation.getFont().getCharset());
-		System.out.println("Font.OutPrecision: "+annotation.getFont().getOutPrecision());
-		System.out.println("Font.ClipPrecision: "+annotation.getFont().getClipPrecision());
-		System.out.println("Font.Quality: "+annotation.getFont().getQuality());
-		System.out.println("Font.PitchAndFamil: "+annotation.getFont().getPitchAndFamily());
-		System.out.println("Font.lFace: "+annotation.getFont().getFaceName());
+//		System.out.println("Font.lfHeight: "+annotation.getFont().getHeight());
+//		System.out.println("Font.lfWidth: "+ annotation.getFont().getWidth());
+//		System.out.println("Font.lfEscapement: "+annotation.getFont().getEscapement());
+//		System.out.println("Font.lfOrientation: "+annotation.getFont().getOrientation());
+//		System.out.println("Font.lfWeight: "+annotation.getFont().getWeight());
+//		System.out.println("Font.ltalic: "+annotation.getFont().getItalic());
+//		System.out.println("Font.Underline: "+annotation.getFont().getUnderline());
+//		System.out.println("Font.Strikeout: "+annotation.getFont().getStrikeout());
+//		System.out.println("Font.Charset: "+annotation.getFont().getCharset());
+//		System.out.println("Font.OutPrecision: "+annotation.getFont().getOutPrecision());
+//		System.out.println("Font.ClipPrecision: "+annotation.getFont().getClipPrecision());
+//		System.out.println("Font.Quality: "+annotation.getFont().getQuality());
+//		System.out.println("Font.PitchAndFamil: "+annotation.getFont().getPitchAndFamily());
+//		System.out.println("Font.lFace: "+annotation.getFont().getFaceName());
 		
 		return annotation;
 	}

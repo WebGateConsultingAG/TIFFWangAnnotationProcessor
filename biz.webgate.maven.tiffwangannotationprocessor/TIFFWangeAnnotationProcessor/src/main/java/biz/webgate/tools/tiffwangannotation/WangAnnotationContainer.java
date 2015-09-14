@@ -8,7 +8,7 @@ public class WangAnnotationContainer {
 	private final int header;
 	private final boolean win32;
 	private final List<IAnnotation> annotations = new ArrayList<IAnnotation>();
-
+	
 	public WangAnnotationContainer(int header, boolean win32) {
 		super();
 		this.header = header;
