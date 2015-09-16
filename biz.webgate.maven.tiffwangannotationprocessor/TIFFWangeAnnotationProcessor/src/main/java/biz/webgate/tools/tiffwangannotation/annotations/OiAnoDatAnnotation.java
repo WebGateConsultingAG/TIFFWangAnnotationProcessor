@@ -27,7 +27,6 @@ public class OiAnoDatAnnotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		
 		int maxb = 0;
 		byte[] max = ByteBuffer.allocate(4).putInt(maxPoints).array();
 		byte[] pc = ByteBuffer.allocate(4).putInt(pointCount).array();
@@ -35,9 +34,6 @@ public class OiAnoDatAnnotation extends AbstractAnnotation {
 		byte[] spy = ByteBuffer.allocate(4).putInt(points.get(0).getY()).array();
 		byte[] epx = ByteBuffer.allocate(4).putInt(points.get(1).getX()).array();
 		byte[] epy = ByteBuffer.allocate(4).putInt(points.get(1).getY()).array();
-		
-		
-		
 		maxb = max.length+pc.length+spx.length+spy.length+epx.length+epy.length;
 		Byte[] blist = new Byte[maxb];
 		int i = maxb-1;
