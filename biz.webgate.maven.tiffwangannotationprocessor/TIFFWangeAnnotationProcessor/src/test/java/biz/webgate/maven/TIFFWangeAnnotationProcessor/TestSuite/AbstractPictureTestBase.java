@@ -23,6 +23,7 @@ public class AbstractPictureTestBase {
 	public static final String PIC_IMGVIEWER_ANNOTATION_TEXTAREA ="imaging-pic-textfieldannotation.tif";
 	public static final String PIC_IMGVIEWER_ANNOTATION_VARIOUS ="imaging-pic-various-annotations.tif";
 	public static final String PIC_IMGVIEWER_ANNOTATION_TEXTAREA_YELLOWFF ="imaging-pic-textfieldannotation-yellow-font-face.tif";
+	public static final String PIC_IMAGEVIEWER_ALLANNOTATIONS = "3annotationWithBGPicture.tif";
 	public AbstractPictureTestBase() {
 		super();
 	}

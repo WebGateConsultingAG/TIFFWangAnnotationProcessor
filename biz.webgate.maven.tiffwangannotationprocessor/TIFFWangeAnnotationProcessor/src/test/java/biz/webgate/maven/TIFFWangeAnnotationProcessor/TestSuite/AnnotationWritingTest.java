@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,33 +24,60 @@ import biz.webgate.tools.tiffwangannotation.IAnnotation;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationContainer;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 import biz.webgate.tools.tiffwangannotation.annotations.OiAnoDatAnnotation;
-import biz.webgate.tools.tiffwangannotation.annotations.helpers.Point;
+import biz.webgate.tools.tiffwangannotation.annotations.Type5Annotation;
 
 public class AnnotationWritingTest {
 	
 	@Test
 	public void testOiAnoDatAnnotationserialize() throws IOException{
 		WangAnnotationContainer annotationContainer = getcontainer();
+		System.out.println("######################");
 		for(IAnnotation ia :  annotationContainer.getAnnotations()){
-			
+			if(ia instanceof Type5Annotation){
+				
+				for(IAnnotation iia : ia.getAnnotations()){
+					if(iia instanceof OiAnoDatAnnotation){
+						OiAnoDatAnnotation oia = (OiAnoDatAnnotation)iia;
+						System.out.println("ano: " + oia.getAnnotationName());
+						Byte[] byteStream = oia.serialize();
+						byte[] by = new byte[byteStream.length];
+						int i=0;
+						String look = "";
+						for(Byte b : byteStream){
+							look+=b + ".";
+							by[i] = b;
+							i++;
+						}						
+					    System.out.println("after" + look);
+		
+					}
+				}
+			}
 		}
 		
 		
 	}
 	
 	public WangAnnotationContainer getcontainer() throws IOException{
-		URL url = getURLforTestFile(AbstractPictureTestBase.PIC_IMGVIEWER_ANNOTATION_TEXTAREA);
+		URL url = getURLforTestFile(AbstractPictureTestBase.PIC_IMAGEVIEWER_ALLANNOTATIONS);
 		List<PictureDetail> allPictures = readPictureFromUrl(url);
 		TIFFDirectory tDir = allPictures.get(0).getTIFFDirectory();
-		assertNotNull(tDir);
+		//assertNotNull(tDir);
 		TIFFField wangAnnotations = tDir.getTIFFField(32932);
-		assertNotNull(wangAnnotations);
-		System.out.println(wangAnnotations.getCount());
-		System.out.println(wangAnnotations.getAsBytes().length);
+		//assertNotNull(wangAnnotations);
+//		System.out.println(wangAnnotations.getCount());
+//		System.out.println(wangAnnotations.getAsBytes().length);
+		
+		String look = "";
+		for(byte b : wangAnnotations.getAsBytes()){
+			look+=b+".";
+		}
+		
+		System.out.println("1: " + look);
 		// System.out.println(wangAnnotations.getAsInt(1));
 		//printAsByte(wangAnnotations.getAsBytes());
 		WangAnnotationContainer parsedAnnotations = WangAnnotationParser.INSTANCE.parse((byte[]) wangAnnotations.getData());
-		assertNotNull(parsedAnnotations);
+		//assertNotNull(parsedAnnotations);
 		return parsedAnnotations;
 	}
 	
