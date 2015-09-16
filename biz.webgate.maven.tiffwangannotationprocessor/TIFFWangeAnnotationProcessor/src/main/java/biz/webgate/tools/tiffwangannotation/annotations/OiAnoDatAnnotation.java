@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 import biz.webgate.tools.tiffwangannotation.annotations.helpers.Point;
 
@@ -34,37 +35,18 @@ public class OiAnoDatAnnotation extends AbstractAnnotation {
 		byte[] spy = ByteBuffer.allocate(4).putInt(points.get(0).getY()).array();
 		byte[] epx = ByteBuffer.allocate(4).putInt(points.get(1).getX()).array();
 		byte[] epy = ByteBuffer.allocate(4).putInt(points.get(1).getY()).array();
-		maxb = max.length+pc.length+spx.length+spy.length+epx.length+epy.length;
+		maxb = max.length + pc.length + spx.length + spy.length + epx.length + epy.length;
 		Byte[] blist = new Byte[maxb];
 		int i = maxb-1;
-		
-		for(byte b : epy){
-			blist[i] = b;
-			i--;
-		}
-		for(byte b : epx){
-			blist[i] = b;
-			i--;
-		}
-		for(byte b : spy){
-			blist[i] = b;
-			i--;
-		}
-		for(byte b : spx){
-			blist[i] = b;
-			i--;
-		}
-		for(byte b : pc){
-			blist[i] = b;
-			i--;
-		}
-		for(byte b : max){
-			blist[i] = b;
-			i--;
-		}
+		i = ParseTools.INSTANCE.fillBlist(epy,blist,i);
+		i = ParseTools.INSTANCE.fillBlist(epx,blist,i);
+		i = ParseTools.INSTANCE.fillBlist(spy,blist,i);
+		i = ParseTools.INSTANCE.fillBlist(spx,blist,i);
+		i = ParseTools.INSTANCE.fillBlist(pc,blist,i);
+		i = ParseTools.INSTANCE.fillBlist(max,blist,i);
 		return blist;
 	}
-
+	
 	@Override
 	public String getAnnotationName() {
 		return "OiAnoDat";
