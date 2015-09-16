@@ -131,5 +131,10 @@ public class TiffAnnotationTest extends AbstractPictureTestBase {
 		}
 		System.out.println(counter);
 	}
+	protected URL getURLforTestFile(String testFile) {
+		URL url = getClass().getResource("/" + testFile);
+		assertNotNull("Testfile is missing", url);
+		return url;
+	}
 	
 }
