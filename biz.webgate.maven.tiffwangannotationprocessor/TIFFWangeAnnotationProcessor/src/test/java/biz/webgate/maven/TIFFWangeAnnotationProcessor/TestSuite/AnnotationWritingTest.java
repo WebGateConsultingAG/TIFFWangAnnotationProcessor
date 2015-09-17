@@ -225,7 +225,7 @@ public class AnnotationWritingTest {
 		font.setOrientation(escape);
 		long weight = 12;
 		font.setWeight(weight);
-		font.setFaceName("Arial                       adsf");
+		font.setFaceName("Arial");
 		font.setItalic((byte)0);
 		font.setUnderline((byte)0);
 		font.setStrikeout((byte)0);

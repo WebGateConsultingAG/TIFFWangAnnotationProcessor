@@ -167,11 +167,20 @@ public class LogFont {
 			byte[] weightBytes = ByteBuffer.allocate(8).putLong(weight).array();
 			byte[] orientationBytes = ByteBuffer.allocate(8).putLong(orientation).array();
 			byte[] faceNameBytes = faceName.getBytes(StandardCharsets.ISO_8859_1);
+			byte[] faceNameBlock = new byte[32];
+			//fill up for 32bit
+			for(int j = 0;j<31;j++){
+				if(j<faceNameBytes.length){
+					faceNameBlock[j] = faceNameBytes[j];
+				}else{
+					faceNameBlock[j] = 0;
+				}
+			}
 			byte[] escapementBytes = ByteBuffer.allocate(8).putLong(escapement).array();
 			byte[] widthBytes = ByteBuffer.allocate(8).putLong(width).array();
 			byte[] heightBytes = ByteBuffer.allocate(8).putLong(height).array();			
 			maxb    = maxb +fill1.length + fill2.length + fill3.length + weightBytes.length 
-					+ orientationBytes.length + faceNameBytes.length + escapementBytes.length 
+					+ orientationBytes.length + faceNameBlock.length + escapementBytes.length 
 					+ widthBytes.length + heightBytes.length;			
 			Byte[] blist = new Byte[maxb];
 			int i=maxb-1;
@@ -196,7 +205,7 @@ public class LogFont {
 			i--;
 			i=ParseTools.fillBlistBeginAtEnd(weightBytes, blist, i);
 			i=ParseTools.fillBlistBeginAtEnd(orientationBytes, blist, i);
-			i=ParseTools.fillBlistBeginAtEnd(faceNameBytes, blist, i);
+			i=ParseTools.fillBlistBeginAtEnd(faceNameBlock, blist, i);
 			i=ParseTools.fillBlistBeginAtEnd(escapementBytes, blist, i);
 			i=ParseTools.fillBlistBeginAtEnd(widthBytes, blist, i);
 			i=ParseTools.fillBlistBeginAtEnd(heightBytes, blist, i);
