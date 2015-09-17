@@ -23,7 +23,7 @@ import biz.webgate.tools.tiffwangannotation.annotations.helpers.RGBColor;
 import static org.junit.Assert.*;
 public class AnnotationWritingTest {
 	
-	@Test
+	@Test 
 	public void testOiAnoDatSerialize() throws IOException{
 		OiAnoDatAnnotation ia1 = new OiAnoDatAnnotation();
 		ia1.setMaxPoints(2);
@@ -117,7 +117,9 @@ public class AnnotationWritingTest {
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiHiliteAnnotation oi2 = new OiHiliteAnnotation();
 		oi2.deserialize(null, buffer, bytes.length);
-		assertEquals(oi1.getValue(),oi2.getValue());
+		for(int j = 0; j<oi1.getValue().length;j++ ){
+			assertEquals(oi1.getValue()[j],oi2.getValue()[j]);
+		}
 	}
 	
 	@Test

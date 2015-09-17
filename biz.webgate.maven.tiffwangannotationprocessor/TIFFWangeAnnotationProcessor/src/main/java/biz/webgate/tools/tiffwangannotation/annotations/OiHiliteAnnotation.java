@@ -1,7 +1,6 @@
 package biz.webgate.tools.tiffwangannotation.annotations;
 
 import java.nio.ByteBuffer;
-
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
 public class OiHiliteAnnotation extends AbstractAnnotation {
@@ -16,8 +15,14 @@ public class OiHiliteAnnotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		// TODO Auto-generated method stub
-		return null;
+		Byte[] blist = new Byte[value.length];
+		int anz = 0;
+		for(byte b : value){
+			blist[anz] = b;
+			anz++;
+		}
+		return blist;
+		
 	}
 
 	@Override
