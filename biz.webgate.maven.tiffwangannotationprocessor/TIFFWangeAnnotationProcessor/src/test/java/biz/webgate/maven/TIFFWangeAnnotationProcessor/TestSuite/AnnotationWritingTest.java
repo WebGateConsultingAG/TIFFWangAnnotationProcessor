@@ -146,7 +146,10 @@ public class AnnotationWritingTest {
 	public void testOiModNm() throws IOException{
 		OiModNmAnnotation oi1 = new OiModNmAnnotation();
 		oi1.setName("Möller");
-		oi1.setDate(new Date());
+		
+		long time = new Date().getTime()/1000;
+		time = time * 1000;
+		oi1.setDate(new Date(time));
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
 		byte[] bytes = new byte[byteList.length];
@@ -160,7 +163,7 @@ public class AnnotationWritingTest {
 		OiModNmAnnotation oi2 = new OiModNmAnnotation();
 		oi2.deserialize(null, buffer, bytes.length);
 		assertEquals(oi1.getName(),oi2.getName());
-		assertEquals(oi1.getDate(),oi2.getDate());
+		assertEquals(oi1.getDate().getTime(),oi2.getDate().getTime());
 	}
 	
 	@Test

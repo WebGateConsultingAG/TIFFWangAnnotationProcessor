@@ -1,8 +1,10 @@
 package biz.webgate.tools.tiffwangannotation.annotations;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
 public class OiModNmAnnotation extends AbstractAnnotation {
@@ -13,15 +15,27 @@ public class OiModNmAnnotation extends AbstractAnnotation {
 	
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
-		name = parser.readChar(buffer, size-4);
-		int time = buffer.getInt();
+		name = ParseTools.INSTANCE.readChar(buffer, size-4);
+		long time = buffer.getInt();
+		time = time * 1000; //there comes only seconds back have to create long from seconds
 		date = new Date(time);
 	}
 
 	@Override
 	public Byte[] serialize() {
-		// TODO Auto-generated method stub
-		return null;
+		long time = date.getTime();
+		
+		int maxb = 0;
+		int intime = (int)(time/1000);
+		byte[] dateBytes = ByteBuffer.allocate(4).putInt(intime).array();		
+		byte[] textBytes = name.getBytes(StandardCharsets.ISO_8859_1);
+		maxb = textBytes.length + dateBytes.length;
+		Byte[] blist = new Byte[maxb];
+		
+		int i = maxb-1;
+		i = ParseTools.INSTANCE.fillBlist(dateBytes, blist, i);
+		i = ParseTools.INSTANCE.fillBlistwidthString(textBytes, blist, i);
+		return blist;		
 	}
 
 	@Override
