@@ -1,7 +1,9 @@
 package biz.webgate.tools.tiffwangannotation.annotations.helpers;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
+import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
 /*
@@ -9,7 +11,6 @@ import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
  http://www.jasinskionline.com/windowsapi/ref/l/logfont.html
  */
 public class LogFont {
-
 	private long height;
 	private long width;
 	private long escapement;
@@ -30,9 +31,8 @@ public class LogFont {
 		font.height = buffer.getLong();
 		font.width = buffer.getLong();
 		font.escapement = buffer.getLong();
-		font.faceName = parser.readChar(buffer, 32);
+		font.faceName = ParseTools.readChar(buffer, 32);
 		font.orientation = buffer.getLong();
-
 		font.weight = buffer.getLong();
 		font.italic = buffer.get();
 		font.underline = buffer.get();
@@ -159,5 +159,50 @@ public class LogFont {
 	public void setFaceName(String faceName) {
 		this.faceName = faceName;
 	}
+	public byte[] getAsByteArray(){
+			int maxb = 8;			
+			byte[] fill1 = ByteBuffer.allocate(4).putInt(1).array();
+			byte[] fill2 = ByteBuffer.allocate(4).putInt(2).array();
+			byte[] fill3 = ByteBuffer.allocate(4).putInt(3).array();
+			byte[] weightBytes = ByteBuffer.allocate(8).putLong(weight).array();
+			byte[] orientationBytes = ByteBuffer.allocate(8).putLong(orientation).array();
+			byte[] faceNameBytes = faceName.getBytes(StandardCharsets.ISO_8859_1);
+			byte[] escapementBytes = ByteBuffer.allocate(8).putLong(escapement).array();
+			byte[] widthBytes = ByteBuffer.allocate(8).putLong(width).array();
+			byte[] heightBytes = ByteBuffer.allocate(8).putLong(height).array();			
+			maxb    = maxb +fill1.length + fill2.length + fill3.length + weightBytes.length 
+					+ orientationBytes.length + faceNameBytes.length + escapementBytes.length 
+					+ widthBytes.length + heightBytes.length;			
+			Byte[] blist = new Byte[maxb];
+			int i=maxb-1;
+			i=ParseTools.fillBlist(fill3, blist, i);
+			i=ParseTools.fillBlist(fill2, blist, i);
+			i=ParseTools.fillBlist(fill1, blist, i);
+			blist[i] = pitchAndFamily;
+			i--;
+			blist[i] = quality;
+			i--;
+			blist[i] = clipPrecision;
+			i--;
+			blist[i] = outPrecision;
+			i--;
+			blist[i] = charset;
+			i--;
+			blist[i] = strikeout;
+			i--;
+			blist[i] = underline;
+			i--;
+			blist[i] = italic;
+			i--;
+			i=ParseTools.fillBlistBeginAtEnd(weightBytes, blist, i);
+			i=ParseTools.fillBlistBeginAtEnd(orientationBytes, blist, i);
+			i=ParseTools.fillBlistBeginAtEnd(faceNameBytes, blist, i);
+			i=ParseTools.fillBlistBeginAtEnd(escapementBytes, blist, i);
+			i=ParseTools.fillBlistBeginAtEnd(widthBytes, blist, i);
+			i=ParseTools.fillBlistBeginAtEnd(heightBytes, blist, i);
+			byte[] retlist = ParseTools.createFromByteObect(blist);
+			return retlist;
+	}
+	
 
 }

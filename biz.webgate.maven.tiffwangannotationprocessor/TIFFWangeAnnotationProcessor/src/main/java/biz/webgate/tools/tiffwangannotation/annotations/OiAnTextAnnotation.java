@@ -21,7 +21,7 @@ public class OiAnTextAnnotation extends AbstractAnnotation {
 		reserved1 = buffer.getInt();
 		creationScale = buffer.getInt();
 		anoTextLenght = buffer.getInt();
-		text = ParseTools.INSTANCE.readChar(buffer, anoTextLenght);
+		text = ParseTools.readChar(buffer, anoTextLenght);
 		buffer.position(start + size);
 	}
 
@@ -40,11 +40,11 @@ public class OiAnTextAnnotation extends AbstractAnnotation {
 		maxb = textBytes.length + anoTextLenghtBytes.length + creationScaleBytes.length + reserved1Bytes.length + currentOrientationBytes.length;
 		Byte[] blist = new Byte[maxb];
 		int i = maxb-1;
-		i = ParseTools.INSTANCE.fillBlistwidthString(textBytes, blist, i);
-		i = ParseTools.INSTANCE.fillBlist(anoTextLenghtBytes,blist,i);
-		i = ParseTools.INSTANCE.fillBlist(creationScaleBytes,blist,i);
-		i = ParseTools.INSTANCE.fillBlist(reserved1Bytes,blist,i);
-		i = ParseTools.INSTANCE.fillBlist(currentOrientationBytes,blist,i);
+		i = ParseTools.fillBlistBeginAtEnd(textBytes, blist, i);
+		i = ParseTools.fillBlist(anoTextLenghtBytes,blist,i);
+		i = ParseTools.fillBlist(creationScaleBytes,blist,i);
+		i = ParseTools.fillBlist(reserved1Bytes,blist,i);
+		i = ParseTools.fillBlist(currentOrientationBytes,blist,i);
 		return blist;
 		
 	}

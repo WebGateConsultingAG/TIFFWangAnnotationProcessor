@@ -68,11 +68,11 @@ public class RGBColor {
 		int maxb = reserveb.length + redb.length + greenb.length + blueb.length;
 		Byte[] blist = new Byte[maxb];
 		int i = maxb-1;
-		i = ParseTools.INSTANCE.fillBlist(reserveb, blist, i);
-		i = ParseTools.INSTANCE.fillBlist(redb, blist, i);
-		i = ParseTools.INSTANCE.fillBlist(greenb, blist, i);
-		i = ParseTools.INSTANCE.fillBlist(blueb, blist, i);
-		byte[] retlist = ParseTools.INSTANCE.createFromByteObect(blist);
+		i = ParseTools.fillBlist(reserveb, blist, i);
+		i = ParseTools.fillBlist(redb, blist, i);
+		i = ParseTools.fillBlist(greenb, blist, i);
+		i = ParseTools.fillBlist(blueb, blist, i);
+		byte[] retlist = ParseTools.createFromByteObect(blist);
 		return retlist;
 	}
 	

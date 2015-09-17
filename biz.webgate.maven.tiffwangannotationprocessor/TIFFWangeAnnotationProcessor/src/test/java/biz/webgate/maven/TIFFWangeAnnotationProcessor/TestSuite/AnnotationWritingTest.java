@@ -37,7 +37,7 @@ public class AnnotationWritingTest {
 		ia1.setPoints(points);
 		Byte[] byteList = ia1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
+		byte[] bytes =  ParseTools.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiAnoDatAnnotation ia2 = new OiAnoDatAnnotation();
@@ -60,7 +60,7 @@ public class AnnotationWritingTest {
 		oi1.setReserved1(0);
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
+		byte[] bytes =  ParseTools.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiAnTextAnnotation oi2 = new OiAnTextAnnotation();
@@ -78,7 +78,7 @@ public class AnnotationWritingTest {
 		oi1.setName("Müller");
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
+		byte[] bytes =  ParseTools.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiGroupAnnotation oi2 = new OiGroupAnnotation();
@@ -93,7 +93,7 @@ public class AnnotationWritingTest {
 		oi1.setValue(init);
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
+		byte[] bytes =  ParseTools.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiHiliteAnnotation oi2 = new OiHiliteAnnotation();
@@ -109,7 +109,7 @@ public class AnnotationWritingTest {
 		oi1.setName("Möller");
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
+		byte[] bytes =  ParseTools.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiIndexAnnotation oi2 = new OiIndexAnnotation();
@@ -151,7 +151,7 @@ public class AnnotationWritingTest {
 		oi1.setDate(new Date(time));
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
+		byte[] bytes =  ParseTools.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiOwnNmAnnotation oi2 = new OiOwnNmAnnotation();
@@ -185,7 +185,7 @@ public class AnnotationWritingTest {
 
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
+		byte[] bytes =  ParseTools.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		Type5Annotation oi2 = new Type5Annotation();
@@ -214,6 +214,36 @@ public class AnnotationWritingTest {
 		ByteBuffer bb = ByteBuffer.wrap(asbyte);
 		RGBColor rgbc2 = RGBColor.buildColor(bb);
 		assertEquals(rgbc.getBlue(), rgbc2.getBlue());
+	}
+	@Test
+	public void LogfontTest(){
+		LogFont font = new LogFont();
+		font.setHeight(12);
+		font.setWidth(10);
+		font.setEscapement(12);
+		long escape = 15;
+		font.setOrientation(escape);
+		long weight = 12;
+		font.setWeight(weight);
+		font.setFaceName("Arial                       adsf");
+		font.setItalic((byte)0);
+		font.setUnderline((byte)0);
+		font.setStrikeout((byte)0);
+		font.setCharset((byte)0);
+		font.setOutPrecision((byte)0);
+		font.setClipPrecision((byte)0);
+		font.setQuality((byte)0);
+		font.setPitchAndFamily((byte)0);
+		
+		byte[] fontBytes = font.getAsByteArray();
+		
+		ByteBuffer bb = ByteBuffer.wrap(fontBytes);
+		LogFont font2 = LogFont.buildLogFont(null, bb);
+		assertEquals(font.getFaceName(),font2.getFaceName());
+		assertEquals(font.getHeight(),font2.getHeight());
+		assertEquals(font.getWeight(),font2.getWeight());
+		assertEquals(font.getItalic(),font2.getItalic());
+		
 	}
 	
 	

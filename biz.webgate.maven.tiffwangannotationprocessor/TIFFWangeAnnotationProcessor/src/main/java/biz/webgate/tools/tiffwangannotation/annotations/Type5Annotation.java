@@ -59,7 +59,8 @@ public class Type5Annotation extends AbstractAnnotation {
 		byte lineSizeBytes[] = ByteBuffer.allocate(4).putInt(lineSize).array();
 		byte transparentBytes[] = ByteBuffer.allocate(4).putInt(transparent).array();
 		byte highligtBytes[] = ByteBuffer.allocate(4).putInt(highligt).array();
-		
+		byte color2Bytes[] = color2.getAsByteArray();
+		byte color1Bytes[] = color1.getAsByteArray();
 		byte typeBytes[] = ByteBuffer.allocate(4).putInt(type).array();
 		
 		Byte[] blist = new Byte[maxb];

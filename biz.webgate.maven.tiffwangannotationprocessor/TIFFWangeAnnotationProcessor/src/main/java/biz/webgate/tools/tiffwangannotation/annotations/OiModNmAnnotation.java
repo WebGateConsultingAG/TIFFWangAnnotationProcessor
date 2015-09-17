@@ -15,7 +15,7 @@ public class OiModNmAnnotation extends AbstractAnnotation {
 	
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
-		name = ParseTools.INSTANCE.readChar(buffer, size-4);
+		name = ParseTools.readChar(buffer, size-4);
 		long time = buffer.getInt();
 		time = time * 1000; //there comes only seconds back have to create long from seconds
 		date = new Date(time);
@@ -33,8 +33,8 @@ public class OiModNmAnnotation extends AbstractAnnotation {
 		Byte[] blist = new Byte[maxb];
 		
 		int i = maxb-1;
-		i = ParseTools.INSTANCE.fillBlist(dateBytes, blist, i);
-		i = ParseTools.INSTANCE.fillBlistwidthString(textBytes, blist, i);
+		i = ParseTools.fillBlist(dateBytes, blist, i);
+		i = ParseTools.fillBlistBeginAtEnd(textBytes, blist, i);
 		return blist;		
 	}
 

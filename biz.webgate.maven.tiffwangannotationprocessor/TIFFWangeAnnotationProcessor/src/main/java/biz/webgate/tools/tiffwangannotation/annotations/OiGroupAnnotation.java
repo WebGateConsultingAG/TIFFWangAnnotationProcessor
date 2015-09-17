@@ -12,7 +12,7 @@ public class OiGroupAnnotation extends AbstractAnnotation {
 
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
-		name = ParseTools.INSTANCE.readChar(buffer, size);
+		name = ParseTools.readChar(buffer, size);
 		
 	}
 
@@ -23,7 +23,7 @@ public class OiGroupAnnotation extends AbstractAnnotation {
 		maxb = textBytes.length;
 		Byte[] blist = new Byte[maxb];
 		int i = maxb-1;
-		i = ParseTools.INSTANCE.fillBlistwidthString(textBytes, blist, i);
+		i = ParseTools.fillBlistBeginAtEnd(textBytes, blist, i);
 		return blist;
 	}
 

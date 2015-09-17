@@ -38,12 +38,12 @@ public class OiAnoDatAnnotation extends AbstractAnnotation {
 		maxb = max.length + pc.length + spx.length + spy.length + epx.length + epy.length;
 		Byte[] blist = new Byte[maxb];
 		int i = maxb-1;
-		i = ParseTools.INSTANCE.fillBlist(epy,blist,i);
-		i = ParseTools.INSTANCE.fillBlist(epx,blist,i);
-		i = ParseTools.INSTANCE.fillBlist(spy,blist,i);
-		i = ParseTools.INSTANCE.fillBlist(spx,blist,i);
-		i = ParseTools.INSTANCE.fillBlist(pc,blist,i);
-		i = ParseTools.INSTANCE.fillBlist(max,blist,i);
+		i = ParseTools.fillBlist(epy,blist,i);
+		i = ParseTools.fillBlist(epx,blist,i);
+		i = ParseTools.fillBlist(spy,blist,i);
+		i = ParseTools.fillBlist(spx,blist,i);
+		i = ParseTools.fillBlist(pc,blist,i);
+		i = ParseTools.fillBlist(max,blist,i);
 		return blist;
 	}
 	
