@@ -1,7 +1,9 @@
 package biz.webgate.tools.tiffwangannotation.annotations;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
+import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
 public class OiIndexAnnotation extends AbstractAnnotation {
@@ -10,13 +12,18 @@ public class OiIndexAnnotation extends AbstractAnnotation {
 
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
-		name = parser.readChar(buffer, size);
+		name = ParseTools.INSTANCE.readChar(buffer, size);
 	}
 
 	@Override
 	public Byte[] serialize() {
-		// TODO Auto-generated method stub
-		return null;
+		int maxb = 0;
+		byte[] textBytes = name.getBytes(StandardCharsets.ISO_8859_1);
+		maxb = textBytes.length;
+		Byte[] blist = new Byte[maxb];
+		int i = maxb-1;
+		i = ParseTools.INSTANCE.fillBlistwidthString(textBytes, blist, i);
+		return blist;
 	}
 
 	@Override
