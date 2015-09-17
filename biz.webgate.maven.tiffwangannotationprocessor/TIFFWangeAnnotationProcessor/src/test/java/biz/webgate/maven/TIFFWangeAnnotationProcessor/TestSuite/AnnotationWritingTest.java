@@ -169,8 +169,10 @@ public class AnnotationWritingTest {
 	@Test
 	public void testOiOvnNm() throws IOException{
 		OiOwnNmAnnotation oi1 = new OiOwnNmAnnotation();
-		oi1.setName("Möller");
-		oi1.setDate(new Date());
+		oi1.setName("Hunzenack");
+		long time = new Date().getTime()/1000;
+		time = time * 1000;
+		oi1.setDate(new Date(time));
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
 		byte[] bytes = new byte[byteList.length];
@@ -184,7 +186,7 @@ public class AnnotationWritingTest {
 		OiOwnNmAnnotation oi2 = new OiOwnNmAnnotation();
 		oi2.deserialize(null, buffer, bytes.length);
 		assertEquals(oi1.getName(),oi2.getName());
-		assertEquals(oi1.getDate(),oi2.getDate());
+		assertEquals(oi1.getDate().getTime(),oi2.getDate().getTime());
 	}
 	
 	
