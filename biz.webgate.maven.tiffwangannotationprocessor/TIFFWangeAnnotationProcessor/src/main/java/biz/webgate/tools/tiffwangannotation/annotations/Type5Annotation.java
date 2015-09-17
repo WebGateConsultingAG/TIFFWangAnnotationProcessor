@@ -47,8 +47,24 @@ public class Type5Annotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		// TODO Auto-generated method stub
-		return null;
+		int maxb = 0;
+		byte reserved10Bytes[] = ByteBuffer.allocate(4).putLong(reserved10).array();
+		byte reserved4Bytes[] = ByteBuffer.allocate(4).putInt(reserved4).array();
+		byte visibleBytes[] = ByteBuffer.allocate(4).putInt(visible).array();
+		byte timeBytes[] = ByteBuffer.allocate(4).putInt(time).array();
+		byte reserved3Bytes[] = ByteBuffer.allocate(4).putInt(reserved3).array();
+		
+		byte reserved2Bytes[] = ByteBuffer.allocate(4).putInt(reserved2).array();
+		byte reserved1Bytes[] = ByteBuffer.allocate(4).putInt(reserved1).array();
+		byte lineSizeBytes[] = ByteBuffer.allocate(4).putInt(lineSize).array();
+		byte transparentBytes[] = ByteBuffer.allocate(4).putInt(transparent).array();
+		byte highligtBytes[] = ByteBuffer.allocate(4).putInt(highligt).array();
+		
+		byte typeBytes[] = ByteBuffer.allocate(4).putInt(type).array();
+		
+		Byte[] blist = new Byte[maxb];
+		
+		return blist;	
 	}
 
 	@Override

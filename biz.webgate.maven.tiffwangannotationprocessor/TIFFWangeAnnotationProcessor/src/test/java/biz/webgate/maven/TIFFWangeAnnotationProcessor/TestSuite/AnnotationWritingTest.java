@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.annotations.OiAnTextAnnotation;
 import biz.webgate.tools.tiffwangannotation.annotations.OiAnoDatAnnotation;
 import biz.webgate.tools.tiffwangannotation.annotations.OiGroupAnnotation;
@@ -36,12 +37,7 @@ public class AnnotationWritingTest {
 		ia1.setPoints(points);
 		Byte[] byteList = ia1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes = new byte[byteList.length];
-		int i=0;
-		for(Byte b : byteList){
-			bytes[i] = b;
-			i++;
-		}
+		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiAnoDatAnnotation ia2 = new OiAnoDatAnnotation();
@@ -64,12 +60,7 @@ public class AnnotationWritingTest {
 		oi1.setReserved1(0);
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes = new byte[byteList.length];
-		int i=0;
-		for(Byte b : byteList){
-			bytes[i] = b;
-			i++;
-		}
+		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiAnTextAnnotation oi2 = new OiAnTextAnnotation();
@@ -87,12 +78,7 @@ public class AnnotationWritingTest {
 		oi1.setName("Müller");
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes = new byte[byteList.length];
-		int i=0;
-		for(Byte b : byteList){
-			bytes[i] = b;
-			i++;
-		}
+		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiGroupAnnotation oi2 = new OiGroupAnnotation();
@@ -107,12 +93,7 @@ public class AnnotationWritingTest {
 		oi1.setValue(init);
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes = new byte[byteList.length];
-		int i=0;
-		for(Byte b : byteList){
-			bytes[i] = b;
-			i++;
-		}
+		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiHiliteAnnotation oi2 = new OiHiliteAnnotation();
@@ -128,12 +109,7 @@ public class AnnotationWritingTest {
 		oi1.setName("Möller");
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes = new byte[byteList.length];
-		int i=0;
-		for(Byte b : byteList){
-			bytes[i] = b;
-			i++;
-		}
+		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiIndexAnnotation oi2 = new OiIndexAnnotation();
@@ -175,12 +151,7 @@ public class AnnotationWritingTest {
 		oi1.setDate(new Date(time));
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes = new byte[byteList.length];
-		int i=0;
-		for(Byte b : byteList){
-			bytes[i] = b;
-			i++;
-		}
+		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		OiOwnNmAnnotation oi2 = new OiOwnNmAnnotation();
@@ -214,12 +185,7 @@ public class AnnotationWritingTest {
 
 		Byte[] byteList = oi1.serialize();
 		assertNotNull(byteList);
-		byte[] bytes = new byte[byteList.length];
-		int i=0;
-		for(Byte b : byteList){
-			bytes[i] = b;
-			i++;
-		}
+		byte[] bytes =  ParseTools.INSTANCE.createFromByteObect(byteList);
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 		Type5Annotation oi2 = new Type5Annotation();
@@ -241,7 +207,14 @@ public class AnnotationWritingTest {
 		assertEquals(oi1.getAnnotations(),oi2.getAnnotations());
 		
 	}
-	
+	@Test
+	public void rgbColorTest(){
+		RGBColor rgbc = new RGBColor(100,100,100,1);
+		byte[] asbyte = rgbc.getAsByteArray();
+		ByteBuffer bb = ByteBuffer.wrap(asbyte);
+		RGBColor rgbc2 = RGBColor.buildColor(bb);
+		assertEquals(rgbc.getBlue(), rgbc2.getBlue());
+	}
 	
 	
 }
