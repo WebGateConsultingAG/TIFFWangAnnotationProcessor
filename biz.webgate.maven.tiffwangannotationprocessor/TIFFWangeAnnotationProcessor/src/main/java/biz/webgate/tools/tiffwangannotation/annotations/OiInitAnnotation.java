@@ -1,48 +1,49 @@
 package biz.webgate.tools.tiffwangannotation.annotations;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
-public class OiIndexAnnotation extends AbstractAnnotation {
+public class OiInitAnnotation extends AbstractAnnotation {
+
+	private byte[] value;
 	private int blockType;
 	private int blockSize;
-	private String name;
 	private int innerSize;
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
 		this.innerSize = size;
-		name = ParseTools.readChar(buffer, size);
+		value = new byte[size];
+		buffer.get(value);
 	}
 
 	@Override
 	public Byte[] serialize() {
-		
-		byte[] textBytes = name.getBytes(Charset.forName("ISO_8859_1"));
-		int maxb = textBytes.length;
-		Byte[] blist = new Byte[maxb];
-		int i = 0;
-		i=ParseTools.fillBlistIncreaseI(textBytes,blist,i);
+		Byte[] blist = new Byte[value.length];
+		int anz = 0;
+		for(byte b : value){
+			blist[anz] = b;
+			anz++;
+		}
 		return blist;
+		
 	}
 
 	@Override
 	public String getAnnotationName() {
-		return "OiIndex";
+		return "OiInitls";
 	}
 
-	public String getName() {
-		return name;
+	public byte[] getValue() {
+		return value;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setValue(byte[] value) {
+		this.value = value;
 	}
 
 	@Override
 	public String toString() {
-		return name;
+		return new String(value);
 	}
 
 	public int getBlockType() {
@@ -60,7 +61,6 @@ public class OiIndexAnnotation extends AbstractAnnotation {
 	public void setBlockSize(int blockSize) {
 		this.blockSize = blockSize;
 	}
-
 	public int getInnerSize() {
 		return innerSize;
 	}

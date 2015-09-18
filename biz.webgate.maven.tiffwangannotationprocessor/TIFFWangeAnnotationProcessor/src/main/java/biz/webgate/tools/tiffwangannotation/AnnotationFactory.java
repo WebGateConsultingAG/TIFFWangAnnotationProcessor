@@ -5,6 +5,8 @@ import biz.webgate.tools.tiffwangannotation.annotations.OiAnoDatAnnotation;
 import biz.webgate.tools.tiffwangannotation.annotations.OiGroupAnnotation;
 import biz.webgate.tools.tiffwangannotation.annotations.OiHiliteAnnotation;
 import biz.webgate.tools.tiffwangannotation.annotations.OiIndexAnnotation;
+import biz.webgate.tools.tiffwangannotation.annotations.OiInitAnnotation;
+import biz.webgate.tools.tiffwangannotation.annotations.OiModNmAnnotation;
 import biz.webgate.tools.tiffwangannotation.annotations.OiOwnNmAnnotation;
 
 
@@ -15,7 +17,7 @@ public class AnnotationFactory {
 			return new OiOwnNmAnnotation();
 		}
 		if ("OiModNm".equals(name)) {
-			return new OiOwnNmAnnotation();
+			return new OiModNmAnnotation();
 		}
 		if ("OiGroup".equals(name)) {
 			return new OiGroupAnnotation();
@@ -32,6 +34,10 @@ public class AnnotationFactory {
 		if ("OiAnoDat".equals(name)) {
 			return new OiAnoDatAnnotation();
 		}
+		if ("OiInitls".equals(name)){
+			return new OiInitAnnotation();
+		}
+		
 		System.out.println("No Annotation found for: " + name);
 		return null;
 	}

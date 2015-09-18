@@ -25,9 +25,12 @@ public class Type5Annotation extends AbstractAnnotation {
 	private int visible;
 	private int reserved4;
 	private long reserved10;
-
+	private int blockType;
+	private int blockSize;
+	private int innerSize;
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
+		this.innerSize = size;
 		type = buffer.getInt();
 		area = Area.buildArea(buffer);
 		color1 = RGBColor.buildColor(buffer);
@@ -203,4 +206,26 @@ public class Type5Annotation extends AbstractAnnotation {
 		this.reserved10 = reserved10;
 	}
 
+	public int getBlockType() {
+		return blockType;
+	}
+
+	public void setBlockType(int blockType) {
+		this.blockType = blockType;
+	}
+
+	public int getBlockSize() {
+		return blockSize;
+	}
+
+	public void setBlockSize(int blockSize) {
+		this.blockSize = blockSize;
+	}
+	public int getInnerSize() {
+		return innerSize;
+	}
+
+	public void setInnerSize(int innerSize) {
+		this.innerSize = innerSize;
+	}
 }

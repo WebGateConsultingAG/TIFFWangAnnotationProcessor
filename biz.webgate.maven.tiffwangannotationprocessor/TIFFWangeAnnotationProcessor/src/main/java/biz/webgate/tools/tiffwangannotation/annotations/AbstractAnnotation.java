@@ -25,6 +25,8 @@ public abstract class AbstractAnnotation implements IAnnotation {
 	 */
 	public abstract String getAnnotationName();
 
+	public abstract int getInnerSize();
+	
 	public void addAnnotation(IAnnotation annotation) {
 		annotations.add(annotation);
 	}
@@ -35,4 +37,6 @@ public abstract class AbstractAnnotation implements IAnnotation {
 	public boolean hasAnnoations() {
 		return !annotations.isEmpty();
 	}
+	
+	
 }

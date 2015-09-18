@@ -11,10 +11,12 @@ public class OiOwnNmAnnotation extends AbstractAnnotation {
 
 	private String name;
 	private Date date;
-	
-	
+	private int blockType;
+	private int blockSize;
+	private int innerSize;
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
+		this.innerSize = size;
 		name = ParseTools.readChar(buffer, size-4);
 		long time = buffer.getInt();
 		time = time * 1000;
@@ -23,9 +25,11 @@ public class OiOwnNmAnnotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
+		
 		long time = date.getTime();
 		int maxb = 0;
 		int intime = (int)(time/1000);
+		
 		byte[] dateBytes = ByteBuffer.allocate(4).putInt(intime).array();		
 		byte[] textBytes = name.getBytes(StandardCharsets.ISO_8859_1);
 		maxb = textBytes.length + dateBytes.length;
@@ -38,7 +42,7 @@ public class OiOwnNmAnnotation extends AbstractAnnotation {
 
 	@Override
 	public String getAnnotationName() {
-		return "OiModNm";
+		return "OiOwnNm";
 	}
 
 	public String getName() {
@@ -60,5 +64,28 @@ public class OiOwnNmAnnotation extends AbstractAnnotation {
 	@Override
 	public String toString() {
 		return name +" "+ date;
+	}
+
+	public int getBlockType() {
+		return blockType;
+	}
+
+	public void setBlockType(int blockType) {
+		this.blockType = blockType;
+	}
+
+	public int getBlockSize() {
+		return blockSize;
+	}
+
+	public void setBlockSize(int blockSize) {
+		this.blockSize = blockSize;
+	}
+	public int getInnerSize() {
+		return innerSize;
+	}
+
+	public void setInnerSize(int innerSize) {
+		this.innerSize = innerSize;
 	}
 }

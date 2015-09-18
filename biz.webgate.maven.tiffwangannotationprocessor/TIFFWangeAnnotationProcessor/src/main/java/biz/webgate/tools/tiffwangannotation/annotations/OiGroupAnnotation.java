@@ -9,11 +9,13 @@ import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 public class OiGroupAnnotation extends AbstractAnnotation {
 
 	private String name;
-
+	private int blockType;
+	private int blockSize;
+	private int innerSize;
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
 		name = ParseTools.readChar(buffer, size);
-		
+		this.innerSize = size;
 	}
 
 	@Override
@@ -43,4 +45,29 @@ public class OiGroupAnnotation extends AbstractAnnotation {
 	public String toString() {
 		return name;
 	}
+
+	public int getBlockType() {
+		return blockType;
+	}
+
+	public void setBlockType(int blockType) {
+		this.blockType = blockType;
+	}
+
+	public int getBlockSize() {
+		return blockSize;
+	}
+
+	public void setBlockSize(int blockSize) {
+		this.blockSize = blockSize;
+	}
+
+	public int getInnerSize() {
+		return innerSize;
+	}
+
+	public void setInnerSize(int innerSize) {
+		this.innerSize = innerSize;
+	}
+	
 }

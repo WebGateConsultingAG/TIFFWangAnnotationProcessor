@@ -1,8 +1,7 @@
 package biz.webgate.tools.tiffwangannotation.annotations.helpers;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-
+import java.nio.charset.Charset;
 import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
@@ -160,7 +159,7 @@ public class LogFont {
 		this.faceName = faceName;
 	}
 	public byte[] getAsByteArray(){
-			byte[] faceNameBytes = faceName.getBytes(StandardCharsets.ISO_8859_1);
+			byte[] faceNameBytes = faceName.getBytes(Charset.forName("ISO_8859_1"));
 			byte[] faceNameBlock = new byte[32];
 			//fill up for 32bit
 			for(int j = 0;j<31;j++){
@@ -194,7 +193,7 @@ public class LogFont {
 	}
 	
 	public byte[] getAsByteArrayForTyp5(){
-		byte[] faceNameBytes = faceName.getBytes(StandardCharsets.ISO_8859_1);
+		byte[] faceNameBytes = faceName.getBytes(Charset.forName("ISO_8859_1"));
 		byte[] faceNameBlock = new byte[32];
 		//fill up for 32bit
 		for(int j = 0;j<31;j++){

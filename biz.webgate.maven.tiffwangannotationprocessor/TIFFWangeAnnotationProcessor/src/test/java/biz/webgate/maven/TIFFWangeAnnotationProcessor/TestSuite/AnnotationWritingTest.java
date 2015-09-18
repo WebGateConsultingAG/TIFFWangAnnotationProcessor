@@ -5,9 +5,7 @@ import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Test;
-
 import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.annotations.OiAnTextAnnotation;
 import biz.webgate.tools.tiffwangannotation.annotations.OiAnoDatAnnotation;

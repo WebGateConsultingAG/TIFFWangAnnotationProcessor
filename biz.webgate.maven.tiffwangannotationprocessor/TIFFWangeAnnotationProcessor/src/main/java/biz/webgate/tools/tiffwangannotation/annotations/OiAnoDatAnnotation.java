@@ -9,13 +9,15 @@ import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 import biz.webgate.tools.tiffwangannotation.annotations.helpers.Point;
 
 public class OiAnoDatAnnotation extends AbstractAnnotation {
-
 	private int maxPoints;
 	private int pointCount;
 	private List<Point> points = new ArrayList<Point>();
-
+	private int blockType;
+	private int blockSize;
+	private int innerSize;
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
+		this.innerSize=size;
 		int start = buffer.position();
 		maxPoints = buffer.getInt();
 		pointCount = buffer.getInt();
@@ -73,5 +75,28 @@ public class OiAnoDatAnnotation extends AbstractAnnotation {
 	public void setPoints(List<Point> points) {
 		this.points = points;
 	}
-	
+
+	public int getBlockType() {
+		return blockType;
+	}
+
+	public int getBlockSize() {
+		return blockSize;
+	}
+
+	public void setBlockSize(int blockSize) {
+		this.blockSize = blockSize;
+	}
+
+	public void setBlockType(int blockType) {
+		this.blockType = blockType;
+	}
+
+	public int getInnerSize() {
+		return innerSize;
+	}
+
+	public void setInnerSize(int innerSize) {
+		this.innerSize = innerSize;
+	}
 }

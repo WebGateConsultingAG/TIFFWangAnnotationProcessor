@@ -2,11 +2,10 @@ package biz.webgate.tools.tiffwangannotation;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import biz.webgate.tools.tiffwangannotation.annotations.Type5Annotation;
-
-
 public enum WangAnnotationParser {
 	INSTANCE;
 
@@ -38,39 +37,88 @@ public enum WangAnnotationParser {
 
 	public byte[] writeannotation(WangAnnotationContainer container){
 		ArrayList<Byte> annoList = new ArrayList<Byte>();
-		byte[] header = ByteBuffer.allocate(4).putInt(container.getHeader()).array();
-		for(Byte b : header){
+		Byte[] intbyte = new Byte[4];
+		int i=0;
+		i= ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(container.getHeader()).array(),intbyte,i);
+		
+		for(Byte b : intbyte){
 			annoList.add(b);
 		}
-		byte[] win32 = ByteBuffer.allocate(4).putInt(container.isWin32()?1:0).array();
-		for(Byte b : win32){
+		i=0;
+		i= ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(container.isWin32()?1:0).array(),intbyte,i);		
+		for(Byte b : intbyte){
+			annoList.add(b);
+		}
+
+		for(IAnnotation ia : container.getAnnotations()){
+			fillAnnotation(ia,annoList);
+			
+		}
+		byte[] retBytes =  new byte[annoList.size()];
+		int j = 0;
+		for(byte b : annoList){
+			retBytes[j] = b;
+			j++;
+		}
+		return retBytes;
+	}
+	
+	private void fillAnnotation(IAnnotation ia,ArrayList<Byte> annoList){
+		Byte[] intbyte = new Byte[4];
+		int i=0;
+		i= ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(ia.getBlockType()).array(),intbyte,i);		
+		for(Byte b : intbyte){
+			annoList.add(b);
+		}
+		i=0;
+		i= ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(ia.getBlockSize()).array(),intbyte,i);		
+		for(Byte b : intbyte){
 			annoList.add(b);
 		}
 		
-		for(IAnnotation ia : container.getAnnotations()){
-			Byte[] anoBytes = ia.serialize();
-			for(Byte b : anoBytes){
-				annoList.add(b);
+		byte[] textBytes = ia.getAnnotationName().getBytes(Charset.forName("ISO_8859_1"));
+		byte[] textBytesBlock = new byte[8];
+		//fill up for 8bit
+		for(int j = 0;j<8;j++){
+			if(j<textBytes.length){
+				textBytesBlock[j] = textBytes[j];
+			}else{
+				textBytesBlock[j] = 0;
 			}
+		}		
+		for(Byte b : textBytesBlock){
+			annoList.add(b);
 		}
-		byte[] retBytes =  new byte[annoList.size()];
-		int i = 0;
-		for(byte b : annoList){
-			retBytes[i] = b;
-			i++;
+		
+		i=0;
+		i= ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(ia.getInnerSize()).array(),intbyte,i);		
+		for(Byte b : intbyte){
+			annoList.add(b);
 		}
-		return retBytes;
+		
+		
+		
+		Byte[] anoBytes = ia.serialize();	
+		for(Byte b : anoBytes){
+			annoList.add(b);
+		}
+		
+		for(IAnnotation ia2 : ia.getAnnotations()){
+			fillAnnotation(ia2,annoList);
+		}
+			
+		
 	}
 	
 	private IAnnotation buildAnnoation(ByteBuffer buffer, int blockType, int blockSize) {
 		
 		switch (blockType) {
 		case 2:
-			return processStandardType(buffer, blockSize);
+			return processStandardType(buffer, blockSize,blockType);
 		case 5:
 			return processType5Annotation(buffer, blockSize);
 		case 6:
-			return processStandardType(buffer, blockSize);
+			return processStandardType(buffer, blockSize,blockType);
 		default:
 			System.out.println("no strategie for: " + blockType);
 		}
@@ -78,20 +126,23 @@ public enum WangAnnotationParser {
 	}
 
 
-	private IAnnotation processStandardType(ByteBuffer buffer, int blockSize) {
+	private IAnnotation processStandardType(ByteBuffer buffer, int blockSize,int blockType) {
 		String name = get8ByteName(buffer);
 		int innerSize = buffer.getInt();
 		IAnnotation annotation = AnnotationFactory.getAnnotationByName(name);
 		if (annotation == null) {
 			return null;
 		}
+		annotation.setBlockType(blockType);
+		annotation.setBlockSize(blockSize);
 		annotation.deserialize(this, buffer, innerSize);
 		return annotation;
 	}
 	private IAnnotation processType5Annotation(ByteBuffer buffer, int blockSize) {
 		Type5Annotation annotation = new Type5Annotation();
 		annotation.deserialize(this, buffer, blockSize);
-
+		annotation.setBlockType(5);
+		annotation.setBlockSize(blockSize);
 		return annotation;
 	}
 

@@ -35,7 +35,8 @@ public class ParseTools {
 			int value = buffer.get() & 0xff;
 			sb.append(Character.toChars(value));
 		}
-		return sb.toString().trim();
+		
+		return sb.toString();//.trim() commented out becoause there comes wrong byte Stream back
 	}
 	
 	public static byte[] createFromByteObect(Byte[] current){
