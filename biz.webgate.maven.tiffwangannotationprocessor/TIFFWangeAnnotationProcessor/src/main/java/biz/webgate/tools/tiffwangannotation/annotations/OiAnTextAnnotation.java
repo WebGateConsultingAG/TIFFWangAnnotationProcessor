@@ -27,26 +27,16 @@ public class OiAnTextAnnotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		int maxb = 0;
 		byte[] textBytes = text.getBytes(StandardCharsets.ISO_8859_1);
-		
-		byte[] anoTextLenghtBytes = ByteBuffer.allocate(4).putInt(anoTextLenght).array();
-		byte[] creationScaleBytes = ByteBuffer.allocate(4).putInt(creationScale).array();
-		byte[] reserved1Bytes = ByteBuffer.allocate(4).putInt(reserved1).array();
-		byte[] currentOrientationBytes = ByteBuffer.allocate(4).putInt(currentOrientation).array();
-		
-		
-		
-		maxb = textBytes.length + anoTextLenghtBytes.length + creationScaleBytes.length + reserved1Bytes.length + currentOrientationBytes.length;
-		Byte[] blist = new Byte[maxb];
-		int i = maxb-1;
-		i = ParseTools.fillBlistBeginAtEnd(textBytes, blist, i);
-		i = ParseTools.fillBlist(anoTextLenghtBytes,blist,i);
-		i = ParseTools.fillBlist(creationScaleBytes,blist,i);
-		i = ParseTools.fillBlist(reserved1Bytes,blist,i);
-		i = ParseTools.fillBlist(currentOrientationBytes,blist,i);
+		int i = 0;
+		int max = 16+textBytes.length;
+		Byte[] blist = new Byte[max];
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(currentOrientation).array(),blist,i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(reserved1).array(),blist,i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(creationScale).array(),blist,i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(anoTextLenght).array(),blist,i);
+		i=ParseTools.fillBlistIncreaseI(textBytes,blist,i);
 		return blist;
-		
 	}
 	
 	@Override

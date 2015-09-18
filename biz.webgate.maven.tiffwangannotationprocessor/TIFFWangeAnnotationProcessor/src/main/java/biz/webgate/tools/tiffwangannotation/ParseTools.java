@@ -3,22 +3,31 @@ package biz.webgate.tools.tiffwangannotation;
 import java.nio.ByteBuffer;
 
 public class ParseTools {
+
+	public static int addByte(byte b,Byte[] blist,int i){
+		blist[i] = b;
+		i++;
+		return i;
+	}
 	
-	public static int fillBlist(byte[] bytes,Byte[] blist,int i){
+	
+	public static int fillBlistIncreaseI(byte[] bytes,Byte[] blist,int i){
 		for(byte b : bytes){
-			blist[i] = b;
-			i--;
+			blist[i]=b;
+			i++;
 		}
 		return i;
 	}
 	
-	public static int fillBlistBeginAtEnd(byte[] bytes,Byte[] blist,int i){
-		for(int c = bytes.length-1; c>=0;c--){
-			blist[i]=bytes[c];
-			i--;
+	
+	public static int reverseBListIncrease(byte[] bytes,Byte[] blist,int i){
+		for(int j=bytes.length-1;j>=0;j--){
+			blist[i]=bytes[j];
+			i++;
 		}
 		return i;
 	}
+
 	
 	public static String readChar(ByteBuffer buffer, int size) {
 		StringBuilder sb = new StringBuilder();

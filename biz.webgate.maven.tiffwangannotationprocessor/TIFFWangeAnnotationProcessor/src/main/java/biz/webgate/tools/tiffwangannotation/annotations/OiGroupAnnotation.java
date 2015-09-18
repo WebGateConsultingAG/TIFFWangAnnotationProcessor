@@ -18,12 +18,11 @@ public class OiGroupAnnotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		int maxb = 0;
 		byte[] textBytes = name.getBytes(StandardCharsets.ISO_8859_1);
-		maxb = textBytes.length;
+		int maxb = textBytes.length;
 		Byte[] blist = new Byte[maxb];
-		int i = maxb-1;
-		i = ParseTools.fillBlistBeginAtEnd(textBytes, blist, i);
+		int i = 0;
+		i=ParseTools.fillBlistIncreaseI(textBytes,blist,i);
 		return blist;
 	}
 

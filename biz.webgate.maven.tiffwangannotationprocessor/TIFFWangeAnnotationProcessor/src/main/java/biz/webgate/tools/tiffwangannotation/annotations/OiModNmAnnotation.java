@@ -24,17 +24,15 @@ public class OiModNmAnnotation extends AbstractAnnotation {
 	@Override
 	public Byte[] serialize() {
 		long time = date.getTime();
-		
 		int maxb = 0;
 		int intime = (int)(time/1000);
 		byte[] dateBytes = ByteBuffer.allocate(4).putInt(intime).array();		
 		byte[] textBytes = name.getBytes(StandardCharsets.ISO_8859_1);
 		maxb = textBytes.length + dateBytes.length;
 		Byte[] blist = new Byte[maxb];
-		
-		int i = maxb-1;
-		i = ParseTools.fillBlist(dateBytes, blist, i);
-		i = ParseTools.fillBlistBeginAtEnd(textBytes, blist, i);
+		int i = 0;
+		i=ParseTools.fillBlistIncreaseI(textBytes,blist,i);
+		i=ParseTools.reverseBListIncrease(dateBytes,blist,i);
 		return blist;		
 	}
 

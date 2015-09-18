@@ -2,6 +2,8 @@ package biz.webgate.tools.tiffwangannotation.annotations.helpers;
 
 import java.nio.ByteBuffer;
 
+import biz.webgate.tools.tiffwangannotation.ParseTools;
+
 public class Area {
 
 	private final int topX;
@@ -39,6 +41,16 @@ public class Area {
 
 	public int getBottomY() {
 		return bottomY;
+	}
+	
+	public byte[] getAsByteArray(){
+		Byte[] blist = new Byte[16];
+		int i = 0;
+		i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(4).putInt(topX).array(), blist, i);
+		i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(4).putInt(topY).array(), blist, i);
+		i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(4).putInt(bottomX).array(), blist, i);
+		i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(4).putInt(bottomY).array(), blist, i);
+		return ParseTools.createFromByteObect(blist);
 	}
 	
 }

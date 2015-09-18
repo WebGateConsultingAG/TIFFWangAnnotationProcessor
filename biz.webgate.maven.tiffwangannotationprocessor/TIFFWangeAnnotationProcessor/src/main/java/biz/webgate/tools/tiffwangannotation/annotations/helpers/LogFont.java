@@ -160,12 +160,6 @@ public class LogFont {
 		this.faceName = faceName;
 	}
 	public byte[] getAsByteArray(){
-			int maxb = 8;			
-			byte[] fill1 = ByteBuffer.allocate(4).putInt(1).array();
-			byte[] fill2 = ByteBuffer.allocate(4).putInt(2).array();
-			byte[] fill3 = ByteBuffer.allocate(4).putInt(3).array();
-			byte[] weightBytes = ByteBuffer.allocate(8).putLong(weight).array();
-			byte[] orientationBytes = ByteBuffer.allocate(8).putLong(orientation).array();
 			byte[] faceNameBytes = faceName.getBytes(StandardCharsets.ISO_8859_1);
 			byte[] faceNameBlock = new byte[32];
 			//fill up for 32bit
@@ -175,43 +169,63 @@ public class LogFont {
 				}else{
 					faceNameBlock[j] = 0;
 				}
-			}
-			byte[] escapementBytes = ByteBuffer.allocate(8).putLong(escapement).array();
-			byte[] widthBytes = ByteBuffer.allocate(8).putLong(width).array();
-			byte[] heightBytes = ByteBuffer.allocate(8).putLong(height).array();			
-			maxb    = maxb +fill1.length + fill2.length + fill3.length + weightBytes.length 
-					+ orientationBytes.length + faceNameBlock.length + escapementBytes.length 
-					+ widthBytes.length + heightBytes.length;			
-			Byte[] blist = new Byte[maxb];
-			int i=maxb-1;
-			i=ParseTools.fillBlist(fill3, blist, i);
-			i=ParseTools.fillBlist(fill2, blist, i);
-			i=ParseTools.fillBlist(fill1, blist, i);
-			blist[i] = pitchAndFamily;
-			i--;
-			blist[i] = quality;
-			i--;
-			blist[i] = clipPrecision;
-			i--;
-			blist[i] = outPrecision;
-			i--;
-			blist[i] = charset;
-			i--;
-			blist[i] = strikeout;
-			i--;
-			blist[i] = underline;
-			i--;
-			blist[i] = italic;
-			i--;
-			i=ParseTools.fillBlistBeginAtEnd(weightBytes, blist, i);
-			i=ParseTools.fillBlistBeginAtEnd(orientationBytes, blist, i);
-			i=ParseTools.fillBlistBeginAtEnd(faceNameBlock, blist, i);
-			i=ParseTools.fillBlistBeginAtEnd(escapementBytes, blist, i);
-			i=ParseTools.fillBlistBeginAtEnd(widthBytes, blist, i);
-			i=ParseTools.fillBlistBeginAtEnd(heightBytes, blist, i);
+			}						
+			Byte[] blist = new Byte[92];
+			int i=0;
+			i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(8).putLong(height).array(), blist, i);
+			i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(8).putLong(width).array(), blist, i);
+			i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(8).putLong(escapement).array(), blist, i);
+			i=ParseTools.fillBlistIncreaseI(faceNameBlock, blist, i);
+			i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(8).putLong(orientation).array(), blist, i);
+			i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(8).putLong(weight).array(), blist, i);
+			i=ParseTools.addByte(italic, blist, i);
+			i=ParseTools.addByte(underline, blist, i);
+			i=ParseTools.addByte(strikeout, blist, i);
+			i=ParseTools.addByte(charset, blist, i);
+			i=ParseTools.addByte(outPrecision, blist, i);
+			i=ParseTools.addByte(clipPrecision, blist, i);
+			i=ParseTools.addByte(quality, blist, i);
+			i=ParseTools.addByte(pitchAndFamily, blist, i);
+			i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(4).putInt(1).array(), blist, i);
+			i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(4).putInt(1).array(), blist, i);
+			i=ParseTools.fillBlistIncreaseI(ByteBuffer.allocate(4).putInt(1).array(), blist, i);
 			byte[] retlist = ParseTools.createFromByteObect(blist);
 			return retlist;
 	}
+	
+	public byte[] getAsByteArrayForTyp5(){
+		byte[] faceNameBytes = faceName.getBytes(StandardCharsets.ISO_8859_1);
+		byte[] faceNameBlock = new byte[32];
+		//fill up for 32bit
+		for(int j = 0;j<31;j++){
+			if(j<faceNameBytes.length){
+				faceNameBlock[j] = faceNameBytes[j];
+			}else{
+				faceNameBlock[j] = 0;
+			}
+		}						
+		Byte[] blist = new Byte[92];
+		int i=0;
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(8).putLong(height).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(8).putLong(width).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(8).putLong(escapement).array(), blist, i);
+		i=ParseTools.fillBlistIncreaseI(faceNameBlock, blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(8).putLong(orientation).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(8).putLong(weight).array(), blist, i);
+		i=ParseTools.addByte(italic, blist, i);
+		i=ParseTools.addByte(underline, blist, i);
+		i=ParseTools.addByte(strikeout, blist, i);
+		i=ParseTools.addByte(charset, blist, i);
+		i=ParseTools.addByte(outPrecision, blist, i);
+		i=ParseTools.addByte(clipPrecision, blist, i);
+		i=ParseTools.addByte(quality, blist, i);
+		i=ParseTools.addByte(pitchAndFamily, blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(1).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(1).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(1).array(), blist, i);
+		byte[] retlist = ParseTools.createFromByteObect(blist);
+		return retlist;
+}
 	
 
 }

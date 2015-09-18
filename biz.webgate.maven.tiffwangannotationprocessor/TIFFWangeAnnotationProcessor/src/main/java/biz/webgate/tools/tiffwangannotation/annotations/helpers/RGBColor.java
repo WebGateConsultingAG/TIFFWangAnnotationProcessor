@@ -2,7 +2,6 @@ package biz.webgate.tools.tiffwangannotation.annotations.helpers;
 
 import java.nio.ByteBuffer;
 
-import biz.webgate.tools.tiffwangannotation.ParseTools;
 /*
  * 		https://msdn.microsoft.com/en-us/library/windows/desktop/dd162938%28v=vs.85%29.aspx
  */
@@ -61,18 +60,11 @@ public class RGBColor {
 		this.reserve = reserve;
 	}
 	public byte[] getAsByteArray(){
-		byte[] reserveb = ByteBuffer.allocate(4).putInt(reserve).array();
-		byte[] redb = ByteBuffer.allocate(4).putInt(this.red).array();
-		byte[] greenb = ByteBuffer.allocate(4).putInt(this.green).array();
-		byte[] blueb = ByteBuffer.allocate(4).putInt(this.blue).array();
-		int maxb = reserveb.length + redb.length + greenb.length + blueb.length;
-		Byte[] blist = new Byte[maxb];
-		int i = maxb-1;
-		i = ParseTools.fillBlist(reserveb, blist, i);
-		i = ParseTools.fillBlist(redb, blist, i);
-		i = ParseTools.fillBlist(greenb, blist, i);
-		i = ParseTools.fillBlist(blueb, blist, i);
-		byte[] retlist = ParseTools.createFromByteObect(blist);
+		byte[] retlist = new byte[4];
+		retlist[0] = (byte) this.blue;
+		retlist[1] = (byte) this.green; 
+		retlist[2] = (byte) this.red; 
+		retlist[3] = (byte) this.reserve;
 		return retlist;
 	}
 	

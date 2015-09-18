@@ -28,22 +28,15 @@ public class OiAnoDatAnnotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		int maxb = 0;
-		byte[] max = ByteBuffer.allocate(4).putInt(maxPoints).array();
-		byte[] pc = ByteBuffer.allocate(4).putInt(pointCount).array();
-		byte[] spx = ByteBuffer.allocate(4).putInt(points.get(0).getX()).array();
-		byte[] spy = ByteBuffer.allocate(4).putInt(points.get(0).getY()).array();
-		byte[] epx = ByteBuffer.allocate(4).putInt(points.get(1).getX()).array();
-		byte[] epy = ByteBuffer.allocate(4).putInt(points.get(1).getY()).array();
-		maxb = max.length + pc.length + spx.length + spy.length + epx.length + epy.length;
-		Byte[] blist = new Byte[maxb];
-		int i = maxb-1;
-		i = ParseTools.fillBlist(epy,blist,i);
-		i = ParseTools.fillBlist(epx,blist,i);
-		i = ParseTools.fillBlist(spy,blist,i);
-		i = ParseTools.fillBlist(spx,blist,i);
-		i = ParseTools.fillBlist(pc,blist,i);
-		i = ParseTools.fillBlist(max,blist,i);
+		
+		Byte[] blist = new Byte[24];
+		int i = 0;
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(maxPoints).array(),blist,i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(pointCount).array(),blist,i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(points.get(0).getX()).array(),blist,i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(points.get(0).getY()).array(),blist,i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(points.get(1).getX()).array(),blist,i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(points.get(1).getY()).array(),blist,i);
 		return blist;
 	}
 	

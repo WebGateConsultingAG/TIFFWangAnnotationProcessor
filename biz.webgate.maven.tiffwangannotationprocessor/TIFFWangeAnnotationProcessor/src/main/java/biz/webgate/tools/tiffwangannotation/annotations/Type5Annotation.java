@@ -2,6 +2,7 @@ package biz.webgate.tools.tiffwangannotation.annotations;
 
 import java.nio.ByteBuffer;
 
+import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 import biz.webgate.tools.tiffwangannotation.annotations.helpers.Area;
 import biz.webgate.tools.tiffwangannotation.annotations.helpers.LogFont;
@@ -42,29 +43,38 @@ public class Type5Annotation extends AbstractAnnotation {
 		visible = buffer.getInt();
 		reserved4 = buffer.getInt();
 		reserved10 = buffer.getLong();
-
 	}
 
 	@Override
 	public Byte[] serialize() {
-		int maxb = 0;
-		byte reserved10Bytes[] = ByteBuffer.allocate(4).putLong(reserved10).array();
-		byte reserved4Bytes[] = ByteBuffer.allocate(4).putInt(reserved4).array();
-		byte visibleBytes[] = ByteBuffer.allocate(4).putInt(visible).array();
-		byte timeBytes[] = ByteBuffer.allocate(4).putInt(time).array();
-		byte reserved3Bytes[] = ByteBuffer.allocate(4).putInt(reserved3).array();
-		
-		byte reserved2Bytes[] = ByteBuffer.allocate(4).putInt(reserved2).array();
-		byte reserved1Bytes[] = ByteBuffer.allocate(4).putInt(reserved1).array();
-		byte lineSizeBytes[] = ByteBuffer.allocate(4).putInt(lineSize).array();
-		byte transparentBytes[] = ByteBuffer.allocate(4).putInt(transparent).array();
-		byte highligtBytes[] = ByteBuffer.allocate(4).putInt(highligt).array();
-		byte color2Bytes[] = color2.getAsByteArray();
-		byte color1Bytes[] = color1.getAsByteArray();
-		byte typeBytes[] = ByteBuffer.allocate(4).putInt(type).array();
-		
+		byte fontBytes[] = font.getAsByteArrayForTyp5();
+		int maxb = 72 + fontBytes.length;
 		Byte[] blist = new Byte[maxb];
-		
+		int i = 0;
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(type).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(area.getTopX()).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(area.getTopY()).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(area.getBottomX()).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(area.getBottomY()).array(), blist, i);
+		i = ParseTools.addByte((byte) color1.getBlue(), blist, i);
+		i = ParseTools.addByte((byte) color1.getGreen(), blist, i);
+		i = ParseTools.addByte((byte) color1.getRed(), blist, i);
+		i = ParseTools.addByte((byte) color1.getReserve(), blist, i);
+		i = ParseTools.addByte((byte) color2.getBlue(), blist, i);
+		i = ParseTools.addByte((byte) color2.getGreen(), blist, i);
+		i = ParseTools.addByte((byte) color2.getRed(), blist, i);
+		i = ParseTools.addByte((byte) color2.getReserve(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(highligt).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(transparent).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(lineSize).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(reserved1).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(reserved2).array(), blist, i);
+		i=ParseTools.fillBlistIncreaseI(fontBytes, blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(reserved3).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(time).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(visible).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(reserved4).array(), blist, i);
+		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(8).putLong(reserved10).array(), blist, i);
 		return blist;	
 	}
 
