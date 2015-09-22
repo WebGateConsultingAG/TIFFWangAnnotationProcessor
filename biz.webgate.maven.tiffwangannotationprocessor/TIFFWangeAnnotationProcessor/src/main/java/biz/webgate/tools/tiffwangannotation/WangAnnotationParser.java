@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-
 import biz.webgate.tools.tiffwangannotation.annotations.Type5Annotation;
 public enum WangAnnotationParser {
 	INSTANCE;
@@ -17,6 +16,7 @@ public enum WangAnnotationParser {
 		WangAnnotationContainer container = WangAnnotationContainer.buildContainer(header, win32);
 		IAnnotation previousAnnotation = null;
 		while (buffer.hasRemaining()) {
+			
 			int blockType = buffer.getInt();
 			int blockSize = buffer.getInt();
 			IAnnotation annotation = buildAnnoation(buffer, blockType, blockSize);
@@ -24,6 +24,8 @@ public enum WangAnnotationParser {
 				System.out.println("Stopped processing");
 				break;
 			}
+			
+			
 			if (blockType == 6) {
 				previousAnnotation.addAnnotation(annotation);
 			} else {
@@ -75,27 +77,27 @@ public enum WangAnnotationParser {
 		for(Byte b : intbyte){
 			annoList.add(b);
 		}
-		
-		byte[] textBytes = ia.getAnnotationName().getBytes(Charset.forName("ISO_8859_1"));
-		byte[] textBytesBlock = new byte[8];
-		//fill up for 8bit
-		for(int j = 0;j<8;j++){
-			if(j<textBytes.length){
-				textBytesBlock[j] = textBytes[j];
-			}else{
-				textBytesBlock[j] = 0;
+		if(ia.getBlockType()!=5){
+			byte[] textBytes = ia.getAnnotationName().getBytes(Charset.forName("ISO_8859_1"));
+			byte[] textBytesBlock = new byte[8];
+			//fill up for 8bit
+			for(int j = 0;j<8;j++){
+				if(j<textBytes.length){
+					textBytesBlock[j] = textBytes[j];
+				}else{
+					textBytesBlock[j] = 0;
+				}
+			}		
+			for(Byte b : textBytesBlock){
+				annoList.add(b);
 			}
-		}		
-		for(Byte b : textBytesBlock){
-			annoList.add(b);
-		}
 		
-		i=0;
-		i= ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(ia.getInnerSize()).array(),intbyte,i);		
-		for(Byte b : intbyte){
-			annoList.add(b);
+			i=0;
+			i= ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(ia.getInnerSize()).array(),intbyte,i);		
+			for(Byte b : intbyte){
+				annoList.add(b);
+			}
 		}
-		
 		
 		
 		Byte[] anoBytes = ia.serialize();	

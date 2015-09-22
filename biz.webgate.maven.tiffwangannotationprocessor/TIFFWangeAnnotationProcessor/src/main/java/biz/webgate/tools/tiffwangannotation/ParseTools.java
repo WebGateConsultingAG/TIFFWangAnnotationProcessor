@@ -39,6 +39,16 @@ public class ParseTools {
 		return sb.toString();//.trim() commented out becoause there comes wrong byte Stream back
 	}
 	
+	public static Byte[] buildByteStructure(String value) {
+		Byte[] rc = new Byte[value.length()];
+		for (int pos = 0; pos < value.length() ;pos++) {
+			char c= value.charAt(pos);
+			byte b = (byte)(c & 0xff);
+			rc[pos] = b;
+		}
+		return rc;
+	}
+	
 	public static byte[] createFromByteObect(Byte[] current){
 		
 		byte[] blist = new byte[current.length];
