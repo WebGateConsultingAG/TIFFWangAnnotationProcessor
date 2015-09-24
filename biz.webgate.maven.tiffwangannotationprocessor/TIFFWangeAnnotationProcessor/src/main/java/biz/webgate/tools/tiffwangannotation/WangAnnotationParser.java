@@ -52,6 +52,7 @@ public enum WangAnnotationParser {
 			annoList.add(b);
 		}
 
+		System.out.println(container);
 		for(IAnnotation ia : container.getAnnotations()){
 			fillAnnotation(ia,annoList);
 			

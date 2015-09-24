@@ -1,7 +1,6 @@
 package biz.webgate.tools.tiffwangannotation.annotations;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 
 import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
@@ -12,6 +11,7 @@ public class OiGroupAnnotation extends AbstractAnnotation {
 	private int blockType;
 	private int blockSize;
 	private int innerSize;
+
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
 		name = ParseTools.readChar(buffer, size);
@@ -20,12 +20,16 @@ public class OiGroupAnnotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		byte[] textBytes = name.getBytes(StandardCharsets.ISO_8859_1);
-		int maxb = textBytes.length;
-		Byte[] blist = new Byte[maxb];
-		int i = 0;
-		i=ParseTools.fillBlistIncreaseI(textBytes,blist,i);
-		return blist;
+		try {
+			byte[] textBytes = name.getBytes("ISO_8859_1");
+			int maxb = textBytes.length;
+			Byte[] blist = new Byte[maxb];
+			int i = 0;
+			i = ParseTools.fillBlistIncreaseI(textBytes, blist, i);
+			return blist;
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 
 	@Override
@@ -69,5 +73,5 @@ public class OiGroupAnnotation extends AbstractAnnotation {
 	public void setInnerSize(int innerSize) {
 		this.innerSize = innerSize;
 	}
-	
+
 }

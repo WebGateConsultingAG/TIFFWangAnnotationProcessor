@@ -50,6 +50,10 @@ public class Type5Annotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
+		System.out.println(font);
+		System.out.println(color1);
+		System.out.println(color2);
+		System.out.println(area);
 		byte fontBytes[] = font.getAsByteArrayForTyp5();
 		int maxb = 72 + fontBytes.length;
 		Byte[] blist = new Byte[maxb];
@@ -207,7 +211,8 @@ public class Type5Annotation extends AbstractAnnotation {
 	}
 
 	public int getBlockType() {
-		return blockType;
+		return 5;
+		//return blockType;
 	}
 
 	public void setBlockType(int blockType) {
@@ -215,7 +220,10 @@ public class Type5Annotation extends AbstractAnnotation {
 	}
 
 	public int getBlockSize() {
-		return blockSize;
+		byte fontBytes[] = font.getAsByteArrayForTyp5();
+		int maxb = 72 + fontBytes.length;
+		return maxb;
+		//return blockSize;
 	}
 
 	public void setBlockSize(int blockSize) {
