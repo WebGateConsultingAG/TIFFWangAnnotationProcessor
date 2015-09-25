@@ -30,6 +30,7 @@ public class OiAnTextAnnotation extends AbstractAnnotation {
 	public Byte[] serialize() {
 		byte[] textBytes = text.getBytes(Charset.forName("ISO_8859_1"));
 		int i = 0;
+		this.anoTextLenght = textBytes.length;
 		byte[] realText = new byte[this.anoTextLenght + 4];
 		for (int j = 0; j < this.anoTextLenght + 4; j++) {
 			if (textBytes.length > j) {
