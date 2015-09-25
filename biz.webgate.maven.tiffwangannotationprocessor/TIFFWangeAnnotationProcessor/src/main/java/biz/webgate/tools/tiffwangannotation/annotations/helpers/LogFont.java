@@ -2,6 +2,7 @@ package biz.webgate.tools.tiffwangannotation.annotations.helpers;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+
 import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
@@ -30,7 +31,7 @@ public class LogFont {
 		font.height = buffer.getLong();
 		font.width = buffer.getLong();
 		font.escapement = buffer.getLong();
-		font.faceName = ParseTools.readChar(buffer, 32);
+		font.faceName = ParseTools.readChar(buffer, 32).trim();
 		font.orientation = buffer.getLong();
 		font.weight = buffer.getLong();
 		font.italic = buffer.get();
@@ -156,13 +157,16 @@ public class LogFont {
 	}
 
 	public void setFaceName(String faceName) {
+		if (faceName.length() > 32) {
+			throw new IllegalArgumentException("faceName has to be shorter then 33 byte");
+		}
 		this.faceName = faceName;
 	}
 	public byte[] getAsByteArray(){
 			byte[] faceNameBytes = faceName.getBytes(Charset.forName("ISO_8859_1"));
 			byte[] faceNameBlock = new byte[32];
 			//fill up for 32bit
-			for(int j = 0;j<31;j++){
+			for(int j = 0;j<32;j++){
 				if(j<faceNameBytes.length){
 					faceNameBlock[j] = faceNameBytes[j];
 				}else{

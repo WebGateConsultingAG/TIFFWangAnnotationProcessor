@@ -38,5 +38,8 @@ public abstract class AbstractAnnotation implements IAnnotation {
 		return !annotations.isEmpty();
 	}
 	
+	public int getBlockSize() {
+		return 12;
+	}
 	
 }

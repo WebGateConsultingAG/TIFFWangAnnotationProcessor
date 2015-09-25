@@ -3,15 +3,13 @@ package biz.webgate.tools.tiffwangannotation.annotations;
 import java.nio.ByteBuffer;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
+//TODO: What purpose has value?
 public class OiHiliteAnnotation extends AbstractAnnotation {
 
 	private byte[] value;
 	private int blockType;
-	private int blockSize;
-	private int innerSize;
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
-		this.innerSize = size;
 		value = new byte[size];
 		buffer.get(value);
 	}
@@ -54,18 +52,7 @@ public class OiHiliteAnnotation extends AbstractAnnotation {
 		this.blockType = blockType;
 	}
 
-	public int getBlockSize() {
-		return blockSize;
-	}
-
-	public void setBlockSize(int blockSize) {
-		this.blockSize = blockSize;
-	}
 	public int getInnerSize() {
-		return innerSize;
-	}
-
-	public void setInnerSize(int innerSize) {
-		this.innerSize = innerSize;
+		return value.length;
 	}
 }

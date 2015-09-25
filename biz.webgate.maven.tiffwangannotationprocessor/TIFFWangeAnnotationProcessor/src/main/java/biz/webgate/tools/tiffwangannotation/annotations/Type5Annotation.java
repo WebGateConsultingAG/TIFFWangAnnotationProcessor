@@ -25,8 +25,6 @@ public class Type5Annotation extends AbstractAnnotation {
 	private int visible;
 	private int reserved4;
 	private long reserved10;
-	private int blockType;
-	private int blockSize;
 	private int innerSize;
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
@@ -50,10 +48,6 @@ public class Type5Annotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		System.out.println(font);
-		System.out.println(color1);
-		System.out.println(color2);
-		System.out.println(area);
 		byte fontBytes[] = font.getAsByteArrayForTyp5();
 		int maxb = 72 + fontBytes.length;
 		Byte[] blist = new Byte[maxb];
@@ -212,28 +206,22 @@ public class Type5Annotation extends AbstractAnnotation {
 
 	public int getBlockType() {
 		return 5;
-		//return blockType;
-	}
-
-	public void setBlockType(int blockType) {
-		this.blockType = blockType;
 	}
 
 	public int getBlockSize() {
 		byte fontBytes[] = font.getAsByteArrayForTyp5();
 		int maxb = 72 + fontBytes.length;
 		return maxb;
-		//return blockSize;
 	}
 
-	public void setBlockSize(int blockSize) {
-		this.blockSize = blockSize;
-	}
 	public int getInnerSize() {
 		return innerSize;
 	}
 
 	public void setInnerSize(int innerSize) {
 		this.innerSize = innerSize;
+	}
+
+	public void setBlockType(int blockType) {
 	}
 }

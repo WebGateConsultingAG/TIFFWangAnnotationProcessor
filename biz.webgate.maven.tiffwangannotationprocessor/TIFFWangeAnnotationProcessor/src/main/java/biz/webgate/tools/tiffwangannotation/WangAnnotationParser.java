@@ -52,7 +52,6 @@ public enum WangAnnotationParser {
 			annoList.add(b);
 		}
 
-		System.out.println(container);
 		for(IAnnotation ia : container.getAnnotations()){
 			fillAnnotation(ia,annoList);
 			
@@ -137,7 +136,6 @@ public enum WangAnnotationParser {
 			return null;
 		}
 		annotation.setBlockType(blockType);
-		annotation.setBlockSize(blockSize);
 		annotation.deserialize(this, buffer, innerSize);
 		return annotation;
 	}
@@ -145,7 +143,6 @@ public enum WangAnnotationParser {
 		Type5Annotation annotation = new Type5Annotation();
 		annotation.deserialize(this, buffer, blockSize);
 		annotation.setBlockType(5);
-		annotation.setBlockSize(blockSize);
 		return annotation;
 	}
 

@@ -1,6 +1,7 @@
 package biz.webgate.tools.tiffwangannotation.annotations;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.Date;
 
 import biz.webgate.tools.tiffwangannotation.ParseTools;
@@ -11,12 +12,9 @@ public class OiOwnNmAnnotation extends AbstractAnnotation {
 	private String name;
 	private Date date;
 	private int blockType;
-	private int blockSize;
-	private int innerSize;
 
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
-		this.innerSize = size;
 		name = ParseTools.readChar(buffer, size - 4);
 		long time = buffer.getInt();
 		time = time * 1000;
@@ -25,22 +23,18 @@ public class OiOwnNmAnnotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		try {
-			long time = date.getTime();
-			int maxb = 0;
-			int intime = (int) (time / 1000);
+		long time = date.getTime();
+		int maxb = 0;
+		int intime = (int) (time / 1000);
 
-			byte[] dateBytes = ByteBuffer.allocate(4).putInt(intime).array();
-			byte[] textBytes = name.getBytes("ISO_8859_1");
-			maxb = textBytes.length + dateBytes.length;
-			Byte[] blist = new Byte[maxb];
-			int i = 0;
-			i = ParseTools.fillBlistIncreaseI(textBytes, blist, i);
-			i = ParseTools.reverseBListIncrease(dateBytes, blist, i);
-			return blist;
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
+		byte[] dateBytes = ByteBuffer.allocate(4).putInt(intime).array();
+		byte[] textBytes = name.getBytes(Charset.forName("ISO_8859_1"));
+		maxb = textBytes.length + dateBytes.length;
+		Byte[] blist = new Byte[maxb];
+		int i = 0;
+		i = ParseTools.fillBlistIncreaseI(textBytes, blist, i);
+		i = ParseTools.reverseBListIncrease(dateBytes, blist, i);
+		return blist;
 	}
 
 	@Override
@@ -77,19 +71,9 @@ public class OiOwnNmAnnotation extends AbstractAnnotation {
 		this.blockType = blockType;
 	}
 
-	public int getBlockSize() {
-		return blockSize;
-	}
-
-	public void setBlockSize(int blockSize) {
-		this.blockSize = blockSize;
-	}
-
 	public int getInnerSize() {
-		return innerSize;
+		byte[] textBytes = name.getBytes(Charset.forName("ISO_8859_1"));
+		return textBytes.length + 4;
 	}
 
-	public void setInnerSize(int innerSize) {
-		this.innerSize = innerSize;
-	}
 }

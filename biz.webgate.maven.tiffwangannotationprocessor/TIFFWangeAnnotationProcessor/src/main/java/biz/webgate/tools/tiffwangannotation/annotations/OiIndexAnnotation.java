@@ -6,12 +6,9 @@ import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
 
 public class OiIndexAnnotation extends AbstractAnnotation {
 	private int blockType;
-	private int blockSize;
 	private String name;
-	private int innerSize;
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
-		this.innerSize = size;		
 		name = ParseTools.readChar(buffer, size);
 	}
 
@@ -48,19 +45,9 @@ public class OiIndexAnnotation extends AbstractAnnotation {
 		this.blockType = blockType;
 	}
 
-	public int getBlockSize() {
-		return blockSize;
-	}
-
-	public void setBlockSize(int blockSize) {
-		this.blockSize = blockSize;
-	}
 
 	public int getInnerSize() {
-		return innerSize;
+		return serialize().length;
 	}
 
-	public void setInnerSize(int innerSize) {
-		this.innerSize = innerSize;
-	}
 }

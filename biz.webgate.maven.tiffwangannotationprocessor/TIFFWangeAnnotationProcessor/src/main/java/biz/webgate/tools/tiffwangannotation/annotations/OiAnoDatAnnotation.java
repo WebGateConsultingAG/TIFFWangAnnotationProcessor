@@ -13,11 +13,8 @@ public class OiAnoDatAnnotation extends AbstractAnnotation {
 	private int pointCount;
 	private List<Point> points = new ArrayList<Point>();
 	private int blockType;
-	private int blockSize;
-	private int innerSize;
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
-		this.innerSize=size;
 		int start = buffer.position();
 		maxPoints = buffer.getInt();
 		pointCount = buffer.getInt();
@@ -30,7 +27,7 @@ public class OiAnoDatAnnotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		
+		//TODO: Support PointCount
 		Byte[] blist = new Byte[24];
 		int i = 0;
 		i=ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(maxPoints).array(),blist,i);
@@ -80,23 +77,14 @@ public class OiAnoDatAnnotation extends AbstractAnnotation {
 		return blockType;
 	}
 
-	public int getBlockSize() {
-		return blockSize;
-	}
-
-	public void setBlockSize(int blockSize) {
-		this.blockSize = blockSize;
-	}
 
 	public void setBlockType(int blockType) {
 		this.blockType = blockType;
 	}
 
 	public int getInnerSize() {
-		return innerSize;
+		//TODO: Dynamisch rechnen
+		return 24;
 	}
 
-	public void setInnerSize(int innerSize) {
-		this.innerSize = innerSize;
-	}
 }

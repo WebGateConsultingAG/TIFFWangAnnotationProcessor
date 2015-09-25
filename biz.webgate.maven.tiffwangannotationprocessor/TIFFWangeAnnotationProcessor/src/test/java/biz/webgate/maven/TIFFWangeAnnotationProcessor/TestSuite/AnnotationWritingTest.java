@@ -200,8 +200,7 @@ public class AnnotationWritingTest {
 		assertEquals(oi1.getTime(),oi2.getTime());
 		//assertEquals(oi1.getAnnotations(),oi2.getAnnotations());
 		assertEquals(oi1.getReserved10(),oi2.getReserved10());
-		//TODO:Make it work
-		//assertEquals(oi1.getFont().getFaceName(),oi2.getFont().getFaceName());
+		assertEquals(oi1.getFont().getFaceName(),oi2.getFont().getFaceName());
 		assertEquals(oi1.getFont().getWeight(),oi2.getFont().getWeight());
 
 	}
@@ -214,15 +213,28 @@ public class AnnotationWritingTest {
 		assertEquals(rgbc.getBlue(), rgbc2.getBlue());
 	}
 	@Test
-	public void LogfontTest(){
+	public void LogfontArialTest(){
 		LogFont font = createFont();
 		
 		byte[] fontBytes = font.getAsByteArray();
 		
 		ByteBuffer bb = ByteBuffer.wrap(fontBytes);
 		LogFont font2 = LogFont.buildLogFont(null, bb);
-		//TODO:Make it work
-		//assertEquals(font.getFaceName(),font2.getFaceName());
+		assertEquals(font.getFaceName(),font2.getFaceName());
+		assertEquals(font.getHeight(),font2.getHeight());
+		assertEquals(font.getWeight(),font2.getWeight());
+		assertEquals(font.getItalic(),font2.getItalic());
+		
+	}
+	@Test
+	public void LogfontVerdanahTest(){
+		LogFont font = createFontVerdanah();
+		
+		byte[] fontBytes = font.getAsByteArray();
+		
+		ByteBuffer bb = ByteBuffer.wrap(fontBytes);
+		LogFont font2 = LogFont.buildLogFont(null, bb);
+		assertEquals(font.getFaceName(),font2.getFaceName());
 		assertEquals(font.getHeight(),font2.getHeight());
 		assertEquals(font.getWeight(),font2.getWeight());
 		assertEquals(font.getItalic(),font2.getItalic());
@@ -260,4 +272,26 @@ public class AnnotationWritingTest {
 		font.setPitchAndFamily((byte)0);
 		return font;
 	}
+	
+	private LogFont createFontVerdanah(){
+		LogFont font = new LogFont();
+		font.setHeight(12);
+		font.setWidth(10);
+		font.setEscapement(12);
+		long escape = 15;
+		font.setOrientation(escape);
+		long weight = 30;
+		font.setWeight(weight);
+		font.setFaceName("Verdanah");
+		font.setItalic((byte)0);
+		font.setUnderline((byte)0);
+		font.setStrikeout((byte)0);
+		font.setCharset((byte)0);
+		font.setOutPrecision((byte)0);
+		font.setClipPrecision((byte)0);
+		font.setQuality((byte)0);
+		font.setPitchAndFamily((byte)0);
+		return font;
+	}
+
 }

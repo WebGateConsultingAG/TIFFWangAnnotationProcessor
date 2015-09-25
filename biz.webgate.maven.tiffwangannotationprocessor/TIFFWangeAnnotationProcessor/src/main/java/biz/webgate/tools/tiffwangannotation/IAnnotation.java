@@ -16,6 +16,5 @@ public interface IAnnotation {
 	public abstract int getBlockType();
 	public abstract int getBlockSize();
 	public abstract void setBlockType(int blockType);
-	public abstract void setBlockSize(int blockType);
 	public abstract int getInnerSize();
 }

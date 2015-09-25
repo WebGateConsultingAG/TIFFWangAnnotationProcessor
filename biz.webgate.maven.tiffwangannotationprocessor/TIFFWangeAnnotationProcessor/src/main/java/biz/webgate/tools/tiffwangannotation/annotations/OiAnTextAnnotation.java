@@ -1,6 +1,7 @@
 package biz.webgate.tools.tiffwangannotation.annotations;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 
 import biz.webgate.tools.tiffwangannotation.ParseTools;
 import biz.webgate.tools.tiffwangannotation.WangAnnotationParser;
@@ -13,12 +14,9 @@ public class OiAnTextAnnotation extends AbstractAnnotation {
 	private int anoTextLenght;
 	private String text;
 	private int blockType;
-	private int blockSize;
-	private int innerSize;
 
 	@Override
 	public void deserialize(WangAnnotationParser parser, ByteBuffer buffer, int size) {
-		this.innerSize = size;
 		int start = buffer.position();
 		currentOrientation = buffer.getInt();
 		reserved1 = buffer.getInt();
@@ -30,29 +28,25 @@ public class OiAnTextAnnotation extends AbstractAnnotation {
 
 	@Override
 	public Byte[] serialize() {
-		try {
-			byte[] textBytes = text.getBytes("ISO_8859_1");
-			int i = 0;
-			byte[] realText = new byte[this.anoTextLenght + 4];
-			for (int j = 0; j < this.anoTextLenght + 4; j++) {
-				if (textBytes.length > j) {
-					realText[j] = textBytes[j];
-				} else {
-					realText[j] = 0;
-				}
+		byte[] textBytes = text.getBytes(Charset.forName("ISO_8859_1"));
+		int i = 0;
+		byte[] realText = new byte[this.anoTextLenght + 4];
+		for (int j = 0; j < this.anoTextLenght + 4; j++) {
+			if (textBytes.length > j) {
+				realText[j] = textBytes[j];
+			} else {
+				realText[j] = 0;
 			}
-			int max = 20 + textBytes.length;
-			Byte[] blist = new Byte[max];
-			i = ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(currentOrientation).array(), blist, i);
-			i = ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(reserved1).array(), blist, i);
-			i = ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(creationScale).array(), blist, i);
-			i = ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(anoTextLenght).array(), blist, i);
-			i = ParseTools.fillBlistIncreaseI(realText, blist, i);
-
-			return blist;
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
 		}
+		int max = 20 + textBytes.length;
+		Byte[] blist = new Byte[max];
+		i = ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(currentOrientation).array(), blist, i);
+		i = ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(reserved1).array(), blist, i);
+		i = ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(creationScale).array(), blist, i);
+		i = ParseTools.reverseBListIncrease(ByteBuffer.allocate(4).putInt(anoTextLenght).array(), blist, i);
+		i = ParseTools.fillBlistIncreaseI(realText, blist, i);
+
+		return blist;
 	}
 
 	@Override
@@ -113,19 +107,10 @@ public class OiAnTextAnnotation extends AbstractAnnotation {
 		this.blockType = blockType;
 	}
 
-	public int getBlockSize() {
-		return blockSize;
-	}
-
-	public void setBlockSize(int blockSize) {
-		this.blockSize = blockSize;
-	}
-
 	public int getInnerSize() {
-		return innerSize;
+		byte[] textBytes = text.getBytes(Charset.forName("ISO_8859_1"));
+		int max = 20 + textBytes.length;
+		return max;
 	}
 
-	public void setInnerSize(int innerSize) {
-		this.innerSize = innerSize;
-	}
 }
